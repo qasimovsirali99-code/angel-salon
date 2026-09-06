@@ -1,0 +1,2174 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ANGEL — gözəllik salonu, Bakı</title>
+<meta name="description" content="Saç, dırnaq, üz baxımı və qaş ustaları. Nizami küçəsi 42, Bakı. Vaxt üçün zəng edin.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sedef:#DDE2DC;
+  --sedef-ac:#EDF0EA;
+  --gavali:#241722;
+  --gavali-orta:#6B3350;
+  --gavali-ac:#8F5877;
+  --adacayi:#7B9086;
+  --qizil:#A98A52;
+  --xett:rgba(36,23,34,.14);
+  --xett-ac:rgba(36,23,34,.07);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Jost',system-ui,sans-serif;
+  font-weight:300;
+  background:var(--sedef);
+  color:var(--gavali);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+::selection{background:var(--gavali-orta);color:var(--sedef-ac)}
+
+a{color:inherit}
+
+:focus-visible{
+  outline:2px solid var(--gavali-orta);
+  outline-offset:3px;
+}
+
+/* ═══ Naviqasiya ═══ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px clamp(20px,5vw,60px);
+  mix-blend-mode:multiply;
+  transition:background .3s ease,backdrop-filter .3s ease,border-color .3s ease;
+  border-bottom:1px solid transparent;
+}
+
+/* səhifə sürüşdürüləndə naviqasiya öz fonunu alır */
+.nav.nav-yapisqan{
+  mix-blend-mode:normal;
+  background:rgba(221,226,220,.88);
+  backdrop-filter:blur(14px);
+  border-bottom-color:var(--xett-ac);
+  padding-top:16px;padding-bottom:16px;
+}
+.nav.nav-yapisqan.nav-isiq{
+  background:rgba(36,23,34,.9);
+  border-bottom-color:rgba(237,240,234,.13);
+}
+
+.nav-ad{
+  font-family:'Bodoni Moda',Georgia,serif;
+  font-size:19px;font-weight:500;
+  letter-spacing:.22em;
+}
+
+.nav-menyu{display:flex;gap:clamp(18px,3vw,38px);font-size:14.5px}
+.nav-menyu a{text-decoration:none;padding-bottom:2px;border-bottom:1px solid transparent}
+.nav-menyu a:hover{border-bottom-color:var(--gavali)}
+
+/* tünd bölmə naviqasiyanın altına düşəndə rəng çevrilir */
+.nav.nav-isiq{mix-blend-mode:normal;color:var(--sedef-ac)}
+.nav.nav-isiq .nav-menyu a:hover{border-bottom-color:var(--sedef-ac)}
+
+@media(max-width:640px){.nav-menyu a:nth-child(-n+2){display:none}}
+
+/* ═══ Hero ═══ */
+
+/* salon əşyaları — divar quruluşu */
+.hero-esya{
+  position:absolute;inset:0;
+  overflow:hidden;
+  opacity:0;
+  pointer-events:none;
+}
+.yuklendi .hero-esya{animation:esyaAc 1.6s ease 1.9s forwards}
+@keyframes esyaAc{to{opacity:1}}
+.hero-esya svg{width:100%;height:100%;display:block}
+.hero-esya .e{
+  fill:none;
+  stroke:var(--gavali);
+  stroke-width:1.2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  opacity:.26;
+}
+.hero-esya .e-nazik{stroke-width:.9;opacity:.18}
+.hero-esya .e-isiq{fill:var(--qizil);opacity:.3}
+.hero-esya .e-dolgu{fill:var(--gavali);opacity:.05}
+
+/* dar ekranda yan əşyalar fiquru sıxır — gizlənir */
+@media(max-width:900px){
+  .hero-esya{display:none}
+}
+
+/* divar rəsmi — xətlə çəkilmiş qadın profili */
+.hero-divar{
+  position:absolute;
+  left:50%;top:57%;
+  width:min(560px,62vh,88vw);
+  transform:translate(-50%,-50%);
+  opacity:0;
+}
+.yuklendi .hero-divar{animation:divarAc .9s ease .25s forwards}
+@keyframes divarAc{to{opacity:1}}
+.hero-divar svg{width:100%;height:auto;display:block}
+
+/* xətlər səhifə açılanda özlərini çəkir */
+.hero-divar path,
+.hero-divar circle{
+  stroke-dasharray:100;
+  stroke-dashoffset:100;
+}
+.yuklendi .hero-divar path,
+.yuklendi .hero-divar circle{
+  animation:xettCiz 2.3s cubic-bezier(.25,.7,.3,1) .3s forwards;
+}
+@keyframes xettCiz{to{stroke-dashoffset:0}}
+
+/* dolğulu hissələr (dodaq, saç kütləsi) sönük gəlir */
+.hero-divar .dolgu{
+  stroke-dasharray:none;
+  stroke-dashoffset:0;
+  opacity:0;
+  animation:none;
+}
+.yuklendi .hero-divar .dolgu{
+  animation:dolguAc 1.2s ease 1.5s forwards;
+}
+@keyframes dolguAc{to{opacity:var(--son-opacity,1)}}
+
+/* saç yüngülcə yellənir */
+.hero-divar .sac-qrup{
+  transform-origin:215px 80px;
+  animation:sacYellen 9s ease-in-out infinite;
+}
+@keyframes sacYellen{
+  0%,100%{transform:rotate(0deg)}
+  50%{transform:rotate(.9deg)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .hero-divar path,.hero-divar circle{stroke-dashoffset:0}
+  .hero-divar .dolgu{opacity:1}
+  .hero-divar .sac-qrup{animation:none}
+}
+
+@media(max-width:640px){
+  .hero-divar{top:47%;width:min(400px,54vh,96vw)}
+  .hero-divar .cizgi{opacity:.34}
+  .hero-divar .sac-cizgi{opacity:.24}
+}
+.hero-divar .cizgi{
+  fill:none;
+  stroke:var(--gavali);
+  stroke-width:1.5;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  opacity:.6;
+}
+.hero-divar .sac-cizgi{
+  fill:none;
+  stroke:var(--gavali-orta);
+  stroke-width:1.05;
+  stroke-linecap:round;
+  opacity:.36;
+}
+.hero-divar .dodaq{
+  fill:#CE1F42;
+  opacity:1;
+}
+
+/* ═══ Hero fonu ═══
+   Üç qat: rəngli mesh, isteğe bağlı foto, dənəvər doku.
+   Öz salon fotonuzu qoymaq üçün .hero-foto img-in src-ni dəyişin. */
+.hero-fon{
+  position:absolute;inset:0;
+  z-index:0;
+  overflow:hidden;
+  pointer-events:none;
+}
+
+/* rəngli yumşaq mesh */
+.hero-mesh{
+  position:absolute;inset:-12%;
+  background:
+    radial-gradient(46% 42% at 1% 4%,   rgba(178,38,110,.52), transparent 66%),
+    radial-gradient(44% 40% at 100% 10%,rgba(26,158,124,.46), transparent 68%),
+    radial-gradient(48% 42% at 97% 97%, rgba(224,168,58,.44), transparent 68%),
+    radial-gradient(46% 42% at 0% 99%,  rgba(126,54,102,.48), transparent 68%);
+  filter:blur(70px);
+  opacity:0;
+}
+.yuklendi .hero-mesh{animation:fonAc 2.2s ease .1s forwards}
+@keyframes fonAc{to{opacity:1}}
+
+/* salon fotosu — istəyə bağlı, duotone ilə */
+.hero-foto{
+  position:absolute;inset:0;
+  opacity:0;
+  transition:opacity 1.4s ease;
+}
+.hero-foto img{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center 42%;
+  filter:contrast(1.03) saturate(1.08) brightness(1.02);
+}
+/* foto yumşaldılır ki, tünd yazılar üstündə oxunsun */
+.hero-foto::after{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(58% 50% at 50% 44%, rgba(233,236,231,.62), rgba(233,236,231,.28) 100%),
+    linear-gradient(180deg, rgba(233,236,231,.32) 0%, rgba(233,236,231,.18) 42%,
+                    rgba(228,232,226,.4) 80%, var(--sedef) 100%);
+}
+.hero-fon.foto-var .hero-foto{opacity:1}
+
+/* dənəvər doku — rəqəmsal düzlüyü yumşaldır */
+.hero-dene{
+  position:absolute;inset:0;
+  opacity:.42;
+  mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E");
+}
+
+/* kənarlara doğru qaralma */
+.hero-kenar{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(40% 36% at 50% 40%,
+      rgba(221,226,220,.34) 0%, rgba(221,226,220,.16) 56%, transparent 78%),
+    radial-gradient(76% 66% at 50% 44%,
+      transparent 46%, rgba(36,23,34,.07) 100%);
+}
+
+.hero-parlaq{
+  position:absolute;
+  top:50%;left:50%;
+  width:min(1000px,150vw);height:min(1000px,150vw);
+  transform:translate(-50%,-64%);
+  background:
+    radial-gradient(circle at 46% 44%, rgba(190,63,112,.07), transparent 66%),
+    radial-gradient(circle at 58% 58%, rgba(47,144,119,.055), transparent 68%);
+  filter:blur(96px);
+  z-index:0;
+  opacity:0;
+  pointer-events:none;
+}
+.yuklendi .hero-parlaq{animation:parlaqAc 1.8s ease .15s forwards}
+@keyframes parlaqAc{to{opacity:1}}
+
+.hero{
+  position:relative;
+  min-height:100svh;
+  display:grid;
+  place-items:center;
+  align-content:center;
+  padding-top:clamp(60px,14vh,140px);
+  overflow:hidden;
+}
+
+#sehne{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-74%);
+  width:min(560px,66vh,86vw);
+  height:min(560px,66vh,86vw);
+  z-index:1;
+}
+
+.hero-ic{
+  position:relative;z-index:2;
+  text-align:center;
+  padding:0 20px;
+}
+
+.hero-ad{
+  font-family:'Bodoni Moda',Georgia,serif;
+  font-weight:600;
+  font-size:clamp(58px,16vw,196px);
+  line-height:.86;
+  letter-spacing:.02em;
+  mix-blend-mode:multiply;
+  display:flex;
+  justify-content:center;
+}
+
+.hero-ad span{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(46px) scale(1.1);
+  filter:blur(14px);
+}
+
+.hero-alt{
+  margin-top:clamp(30px,5vw,52px);
+  opacity:0;
+}
+
+.hero-yer{
+  font-size:15.5px;
+  font-weight:500;
+  letter-spacing:.1em;
+  color:var(--gavali);
+  /* arxadakı cizgilər yazının içindən keçməsin */
+  text-shadow:
+    0 0 10px var(--sedef), 0 0 10px var(--sedef),
+    0 0 22px var(--sedef), 0 0 34px var(--sedef);
+}
+
+.hero-cta{
+  display:inline-block;
+  margin-top:22px;
+  padding:14px 34px;
+  font-family:'Jost',sans-serif;
+  font-size:14.5px;font-weight:400;
+  letter-spacing:.09em;
+  color:var(--sedef-ac);
+  background:linear-gradient(118deg,#3A1E33 0%,#6B3350 52%,#A32E62 100%);
+  border:none;border-radius:100px;
+  text-decoration:none;
+  cursor:pointer;
+  box-shadow:0 8px 26px rgba(107,51,80,.3);
+  transition:filter .25s,box-shadow .25s,transform .25s;
+}
+.hero-cta:hover{
+  filter:brightness(1.15);
+  box-shadow:0 12px 34px rgba(163,46,98,.38);
+  transform:translateY(-1px);
+}
+
+.hero-asagi{
+  position:absolute;bottom:26px;left:50%;
+  transform:translateX(-50%);
+  z-index:2;
+  font-size:12.5px;letter-spacing:.16em;
+  font-weight:500;
+  color:var(--gavali-orta);
+  text-shadow:0 0 10px var(--sedef), 0 0 20px var(--sedef);
+  opacity:0;
+}
+
+/* ═══ Ümumi bölmə ═══ */
+.bolme{padding:clamp(70px,10vw,130px) clamp(20px,5vw,60px)}
+.dar{max-width:1180px;margin:0 auto}
+
+.bolme-basliq{
+  font-family:'Bodoni Moda',Georgia,serif;
+  font-weight:400;
+  font-size:clamp(30px,5vw,52px);
+  line-height:1.08;
+  letter-spacing:-.005em;
+  margin-bottom:clamp(26px,4vw,46px);
+}
+
+/* ═══ Giriş mətni ═══ */
+.giris{
+  background:var(--sedef-ac);
+  border-top:1px solid var(--xett-ac);
+  border-bottom:1px solid var(--xett-ac);
+}
+
+.giris-metn{
+  max-width:60ch;
+  font-size:clamp(17px,2vw,20px);
+  font-weight:300;
+  line-height:1.72;
+}
+
+.giris-metn p + p{margin-top:1.1em}
+
+.giris-imza{
+  margin-top:34px;
+  font-family:'Bodoni Moda',Georgia,serif;
+  font-style:italic;
+  font-size:18px;
+  color:var(--gavali-orta);
+}
+
+/* ═══ Xidmətlər ═══ */
+.xidmet{
+  --acc:var(--gavali-orta);
+  position:relative;
+  border-top:1px solid var(--xett);
+}
+.xidmet:last-of-type{border-bottom:1px solid var(--xett)}
+
+/* soldan açılan rəngli dolğu */
+.xidmet::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,
+    color-mix(in srgb,var(--acc) 13%,transparent),
+    color-mix(in srgb,var(--acc) 4%,transparent) 38%,
+    transparent 70%);
+  opacity:0;
+  transition:opacity .4s ease;
+  pointer-events:none;
+}
+.xidmet:hover::before,
+.xidmet[data-aciq="true"]::before{opacity:1}
+
+.xidmet-bas{
+  position:relative;z-index:1;
+  width:100%;
+  display:grid;
+  grid-template-columns:74px 1fr auto auto;
+  gap:clamp(18px,3vw,34px);
+  align-items:center;
+  padding:clamp(22px,3vw,32px) clamp(10px,1.6vw,22px);
+  background:none;border:none;
+  font:inherit;color:inherit;text-align:left;
+  cursor:pointer;
+}
+
+/* ikon çərçivəsi */
+.xidmet-nisan{
+  width:74px;height:74px;
+  padding:15px;
+  border-radius:50%;
+  fill:none;
+  stroke:var(--acc);
+  stroke-width:1.95;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  background:color-mix(in srgb,var(--acc) 8%,var(--sedef-ac));
+  border:1px solid color-mix(in srgb,var(--acc) 20%,transparent);
+  transition:transform .5s cubic-bezier(.3,.9,.3,1),
+             background .4s,border-color .4s;
+}
+.xidmet:hover .xidmet-nisan,
+.xidmet[data-aciq="true"] .xidmet-nisan{
+  transform:scale(1.06);
+  background:color-mix(in srgb,var(--acc) 15%,var(--sedef-ac));
+  border-color:color-mix(in srgb,var(--acc) 48%,transparent);
+}
+
+.xidmet-yazi{display:block}
+
+.xidmet-ad{
+  display:block;
+  font-family:'Bodoni Moda',Georgia,serif;
+  font-size:clamp(26px,4vw,42px);
+  font-weight:400;
+  line-height:1.04;
+  transition:color .3s;
+}
+.xidmet:hover .xidmet-ad,
+.xidmet[data-aciq="true"] .xidmet-ad{color:var(--acc)}
+
+.xidmet-qisa{
+  display:block;
+  font-size:14.5px;
+  color:var(--gavali-orta);
+  margin-top:7px;
+}
+
+.xidmet-qiymet{
+  font-size:clamp(15px,1.7vw,18px);
+  color:var(--gavali-orta);
+  white-space:nowrap;
+  transition:color .3s;
+}
+.xidmet:hover .xidmet-qiymet,
+.xidmet[data-aciq="true"] .xidmet-qiymet{color:var(--acc)}
+
+.xidmet-isare{
+  width:38px;height:38px;
+  border:1px solid var(--xett);
+  border-radius:50%;
+  display:grid;place-items:center;
+  font-size:17px;
+  flex:0 0 auto;
+  transition:transform .45s cubic-bezier(.3,.9,.3,1),
+             background .3s,color .3s,border-color .3s;
+}
+.xidmet:hover .xidmet-isare{border-color:var(--acc)}
+.xidmet[data-aciq="true"] .xidmet-isare{
+  transform:rotate(135deg);
+  background:var(--acc);
+  color:var(--sedef-ac);
+  border-color:var(--acc);
+}
+
+.xidmet-govde{
+  position:relative;z-index:1;
+  display:grid;grid-template-rows:0fr;
+  transition:grid-template-rows .52s cubic-bezier(.3,.9,.3,1);
+}
+.xidmet[data-aciq="true"] .xidmet-govde{grid-template-rows:1fr}
+.xidmet-govde > div{overflow:hidden}
+
+.xidmet-ic{
+  display:grid;
+  grid-template-columns:1.05fr 1fr;
+  gap:clamp(24px,4vw,58px);
+  padding:0 clamp(22px,3vw,40px) clamp(32px,4vw,44px)
+          calc(74px + clamp(28px,4.6vw,56px));
+}
+
+.xidmet-izah{
+  align-self:start;
+  font-size:16.5px;
+  line-height:1.74;
+  max-width:46ch;
+  padding-left:18px;
+  border-left:2px solid var(--acc);
+}
+
+.xidmet-siyahi{list-style:none;font-size:15.5px}
+.xidmet-siyahi li{
+  display:flex;justify-content:space-between;gap:16px;
+  padding:11px 0;
+  border-bottom:1px solid var(--xett-ac);
+  opacity:0;
+  transform:translateX(-10px);
+  transition:opacity .5s ease,transform .5s ease;
+}
+.xidmet[data-aciq="true"] .xidmet-siyahi li{opacity:1;transform:none}
+.xidmet-siyahi li:last-child{border-bottom:none}
+.xidmet-siyahi li span:last-child{
+  color:var(--acc);
+  white-space:nowrap;
+  font-weight:500;
+}
+
+@media(max-width:760px){
+  .xidmet-bas{
+    grid-template-columns:52px 1fr auto;
+    gap:15px;row-gap:8px;
+    padding-left:4px;padding-right:4px;
+  }
+  .xidmet-nisan{width:52px;height:52px;padding:11px}
+  .xidmet-qiymet{grid-column:2;grid-row:2}
+  .xidmet-isare{grid-column:3;grid-row:1/3;align-self:center}
+  .xidmet-ic{grid-template-columns:1fr;padding:0 4px 32px 4px}
+  .xidmet-izah{font-size:15.5px}
+}
+
+/* ═══ Ustalar ═══ */
+.ustalar{background:var(--gavali);color:var(--sedef-ac)}
+.ustalar .bolme-basliq{color:var(--sedef-ac)}
+
+.usta-sira{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:clamp(14px,2.5vw,26px);
+}
+
+.usta{
+  border:1px solid rgba(237,240,234,.16);
+  padding:clamp(20px,3vw,32px);
+  display:flex;flex-direction:column;
+  min-height:290px;
+}
+
+.usta-hərf{
+  font-family:'Bodoni Moda',Georgia,serif;
+  font-size:clamp(58px,9vw,104px);
+  line-height:.82;
+  color:var(--gavali-ac);
+  margin-bottom:auto;
+}
+
+.usta-ad{
+  font-family:'Bodoni Moda',Georgia,serif;
+  font-size:clamp(19px,2.4vw,25px);
+  margin-top:26px;
+}
+
+.usta-sahe{
+  font-size:14px;
+  color:rgba(237,240,234,.62);
+  margin-top:5px;
+}
+
+.usta-il{
+  font-size:13px;
+  color:var(--qizil);
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid rgba(237,240,234,.14);
+}
+
+@media(max-width:760px){
+  .usta-sira{grid-template-columns:1fr}
+  .usta{min-height:0}
+  .usta-hərf{margin-bottom:14px}
+}
+
+/* ═══ Qiymət cədvəli ═══ */
+.qiymet-qab{overflow-x:auto}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:15.5px;
+  min-width:480px;
+}
+
+caption{
+  text-align:left;
+  font-size:15px;
+  color:var(--gavali-orta);
+  padding-bottom:20px;
+  max-width:56ch;
+}
+
+th{
+  text-align:left;
+  font-weight:400;
+  font-size:13px;
+  letter-spacing:.11em;
+  color:var(--gavali-orta);
+  padding:0 14px 12px 0;
+  border-bottom:1px solid var(--gavali);
+}
+th:last-child,td:last-child{text-align:right;padding-right:0}
+
+td{
+  padding:15px 14px 15px 0;
+  border-bottom:1px solid var(--xett-ac);
+}
+
+tbody tr:hover{background:var(--sedef-ac)}
+
+.qiymet-ad{font-size:16.5px}
+.qiymet-vaxt{color:var(--gavali-orta);font-size:14px}
+.qiymet-mebleg{font-family:'Bodoni Moda',Georgia,serif;font-size:18px}
+
+.qiymet-not{
+  margin-top:24px;
+  font-size:14px;
+  color:var(--gavali-orta);
+  max-width:60ch;
+}
+
+/* ═══ Rezervasiya ═══ */
+.rezerv{
+  background:var(--sedef-ac);
+  border-top:1px solid var(--xett-ac);
+}
+
+.rezerv-ic{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:clamp(30px,6vw,80px);
+  align-items:start;
+}
+
+.rezerv-yan{font-size:16px;line-height:1.75}
+.rezerv-yan dl{margin-top:26px}
+.rezerv-yan dt{
+  font-size:13px;letter-spacing:.1em;
+  color:var(--gavali-orta);
+  margin-top:20px;
+}
+.rezerv-yan dd{font-size:17px;margin-top:3px}
+.rezerv-yan dd a{text-decoration:none;border-bottom:1px solid var(--xett)}
+.rezerv-yan dd a:hover{border-bottom-color:var(--gavali)}
+
+.saha{margin-bottom:18px}
+.saha label{
+  display:block;
+  font-size:13px;letter-spacing:.08em;
+  color:var(--gavali-orta);
+  margin-bottom:6px;
+}
+.saha input,.saha select,.saha textarea{
+  width:100%;
+  font-family:inherit;font-size:16px;font-weight:300;
+  color:var(--gavali);
+  background:transparent;
+  border:none;
+  border-bottom:1px solid var(--xett);
+  padding:9px 0;
+  border-radius:0;
+  transition:border-color .2s;
+}
+.saha input:focus,.saha select:focus,.saha textarea:focus{
+  outline:none;
+  border-bottom-color:var(--gavali-orta);
+}
+.saha textarea{resize:vertical;min-height:70px}
+.saha select{cursor:pointer}
+
+.rezerv-dugme{
+  margin-top:10px;
+  padding:15px 38px;
+  font-family:inherit;font-size:15px;font-weight:400;
+  letter-spacing:.08em;
+  color:var(--sedef-ac);
+  background:var(--gavali);
+  border:none;border-radius:100px;
+  cursor:pointer;
+  transition:background .25s;
+}
+.rezerv-dugme:hover{background:var(--gavali-orta)}
+
+.rezerv-xeber{
+  margin-top:18px;
+  font-size:14px;
+  line-height:1.6;
+  padding:14px 16px;
+  border-left:2px solid var(--qizil);
+  background:rgba(169,138,82,.09);
+  display:none;
+}
+.rezerv-xeber.gorunur{display:block}
+
+.forma-qeyd{
+  margin-top:14px;
+  font-size:13.5px;
+  color:var(--gavali-orta);
+}
+
+@media(max-width:760px){.rezerv-ic{grid-template-columns:1fr}}
+
+/* ═══ Alt ═══ */
+.alt{
+  background:var(--gavali);
+  color:rgba(237,240,234,.7);
+  padding:clamp(44px,6vw,70px) clamp(20px,5vw,60px) 34px;
+  font-size:14.5px;
+}
+
+.alt-sira{
+  display:grid;
+  grid-template-columns:1.3fr 1fr 1fr;
+  gap:clamp(24px,4vw,50px);
+  max-width:1180px;margin:0 auto;
+}
+
+.alt-ad{
+  font-family:'Bodoni Moda',Georgia,serif;
+  font-size:26px;
+  letter-spacing:.2em;
+  color:var(--sedef-ac);
+  margin-bottom:12px;
+}
+
+.alt h3{
+  font-size:13px;font-weight:400;
+  letter-spacing:.11em;
+  color:var(--qizil);
+  margin-bottom:12px;
+}
+
+.alt ul{list-style:none}
+.alt li{padding:4px 0}
+.alt a{text-decoration:none}
+.alt a:hover{color:var(--sedef-ac)}
+
+.alt-son{
+  max-width:1180px;margin:44px auto 0;
+  padding-top:22px;
+  border-top:1px solid rgba(237,240,234,.14);
+  font-size:13px;
+  color:rgba(237,240,234,.5);
+}
+
+@media(max-width:700px){.alt-sira{grid-template-columns:1fr;gap:32px}}
+
+
+/* ═══ Söhbət ═══ */
+.sohbet-dugme{
+  position:fixed;right:22px;bottom:22px;z-index:70;
+  display:flex;align-items:center;gap:11px;
+  padding:13px 22px 13px 15px;
+  border:none;border-radius:100px;
+  background:var(--gavali);
+  color:var(--sedef-ac);
+  font:inherit;font-size:14.5px;font-weight:500;
+  cursor:pointer;
+  box-shadow:0 10px 30px rgba(36,23,34,.28);
+  transition:transform .25s cubic-bezier(.3,.9,.3,1),background .25s;
+}
+.sohbet-dugme:hover{transform:translateY(-2px);background:var(--gavali-orta)}
+.sohbet-dugme svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6}
+.sohbet-dugme[hidden]{display:none}
+
+.sohbet{
+  position:fixed;right:22px;bottom:22px;z-index:71;
+  width:min(390px,calc(100vw - 44px));
+  height:min(590px,calc(100svh - 44px));
+  display:flex;flex-direction:column;
+  background:var(--sedef-ac);
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 24px 60px rgba(36,23,34,.3);
+  opacity:0;visibility:hidden;
+  transform:translateY(18px) scale(.97);
+  transform-origin:100% 100%;
+  transition:opacity .32s ease,transform .32s cubic-bezier(.3,.9,.3,1),visibility .32s;
+}
+.sohbet.aciq{opacity:1;visibility:visible;transform:none}
+
+.sohbet-bas{
+  display:flex;align-items:center;gap:13px;
+  padding:16px 18px;
+  background:var(--gavali);
+  color:var(--sedef-ac);
+  flex:0 0 auto;
+}
+.sohbet-avatar{
+  width:42px;height:42px;border-radius:50%;
+  background:linear-gradient(140deg,var(--gavali-ac),var(--gavali-orta));
+  display:grid;place-items:center;
+  font-family:'Bodoni Moda',Georgia,serif;font-size:20px;
+  flex:0 0 auto;
+}
+.sohbet-kim{flex:1;line-height:1.3}
+.sohbet-ad{font-size:15px;font-weight:600}
+.sohbet-hal{font-size:12px;color:rgba(237,240,234,.6);display:flex;align-items:center;gap:6px}
+.sohbet-hal::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:#6FBF8E;flex:0 0 auto;
+}
+.sohbet-bagla{
+  background:none;border:none;color:var(--sedef-ac);
+  font-size:22px;line-height:1;cursor:pointer;padding:4px 6px;
+  opacity:.7;transition:opacity .2s;
+}
+.sohbet-bagla:hover{opacity:1}
+
+.sohbet-lent{
+  flex:1;overflow-y:auto;
+  padding:18px;
+  display:flex;flex-direction:column;gap:11px;
+  scroll-behavior:smooth;
+}
+
+.mesaj{
+  max-width:84%;
+  padding:11px 15px;
+  font-size:14.5px;line-height:1.55;
+  border-radius:16px;
+  animation:mesajGel .35s cubic-bezier(.3,.9,.3,1);
+  white-space:pre-line;
+}
+@keyframes mesajGel{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.mesaj-usta{
+  align-self:flex-start;
+  background:#fff;
+  border:1px solid var(--xett-ac);
+  border-bottom-left-radius:5px;
+}
+.mesaj-musteri{
+  align-self:flex-end;
+  background:var(--gavali);
+  color:var(--sedef-ac);
+  border-bottom-right-radius:5px;
+}
+.mesaj b{font-weight:600}
+
+/* yazır… */
+.yazir{
+  align-self:flex-start;
+  display:flex;gap:4px;
+  padding:14px 16px;
+  background:#fff;border:1px solid var(--xett-ac);
+  border-radius:16px;border-bottom-left-radius:5px;
+}
+.yazir i{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--gavali-orta);opacity:.4;
+  animation:nefes 1.3s ease-in-out infinite;
+}
+.yazir i:nth-child(2){animation-delay:.18s}
+.yazir i:nth-child(3){animation-delay:.36s}
+@keyframes nefes{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}
+
+.cipler{
+  display:flex;flex-wrap:wrap;gap:7px;
+  padding:0 18px 12px;
+  flex:0 0 auto;
+}
+.cip{
+  padding:8px 14px;
+  font:inherit;font-size:13px;
+  background:transparent;
+  border:1px solid color-mix(in srgb,var(--gavali-orta) 34%,transparent);
+  border-radius:100px;
+  color:var(--gavali-orta);
+  cursor:pointer;
+  transition:background .2s,color .2s,border-color .2s;
+}
+.cip:hover{background:var(--gavali-orta);color:var(--sedef-ac);border-color:var(--gavali-orta)}
+
+.sohbet-alt{
+  display:flex;gap:9px;align-items:flex-end;
+  padding:12px 14px 14px;
+  border-top:1px solid var(--xett-ac);
+  background:var(--sedef-ac);
+  flex:0 0 auto;
+}
+.sohbet-alt textarea{
+  flex:1;
+  font-family:inherit;font-size:14.5px;
+  color:var(--gavali);
+  background:#fff;
+  border:1px solid var(--xett);
+  border-radius:14px;
+  padding:11px 14px;
+  resize:none;
+  max-height:96px;
+  line-height:1.45;
+}
+.sohbet-alt textarea:focus{outline:none;border-color:var(--gavali-orta)}
+.sohbet-gonder{
+  width:42px;height:42px;flex:0 0 auto;
+  border:none;border-radius:50%;
+  background:var(--gavali);
+  color:var(--sedef-ac);
+  cursor:pointer;
+  display:grid;place-items:center;
+  transition:background .2s,opacity .2s;
+}
+.sohbet-gonder:hover{background:var(--gavali-orta)}
+.sohbet-gonder:disabled{opacity:.35;cursor:not-allowed}
+.sohbet-gonder svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8}
+
+@media(max-width:520px){
+  .sohbet{
+    right:0;bottom:0;
+    width:100vw;height:100svh;
+    border-radius:0;
+  }
+  .sohbet-dugme{right:16px;bottom:16px;padding:12px 18px 12px 13px}
+}
+
+
+/* ═══ Foto rejimi ═══
+   Foto artıq mətnsizdir: saytın öz ANGEL yazısı və halqaları görünür. */
+.hero.foto-rejim .hero-mesh{opacity:.3 !important}
+.hero.foto-rejim .hero-divar,
+.hero.foto-rejim .hero-esya{display:none}   /* foto varsa cizgi rəsmi lazım deyil */
+
+/* dar ekranda pərdə bir az güclənir ki, yazı oxunsun */
+@media(max-width:640px){
+  .hero.foto-rejim .hero-foto::after{
+    background:
+      radial-gradient(88% 52% at 50% 48%, rgba(233,236,231,.72), rgba(233,236,231,.42) 100%),
+      linear-gradient(180deg, rgba(233,236,231,.44) 0%, rgba(233,236,231,.3) 42%,
+                      rgba(228,232,226,.5) 80%, var(--sedef) 100%);
+  }
+}
+
+
+/* ═══ Yükləmə ardıcıllığı ═══ */
+.yuklendi .hero-ad span{
+  animation:herfQalx 1.25s cubic-bezier(.19,.92,.24,1) forwards;
+}
+.yuklendi .hero-alt{animation:yumsaqGel 1.1s ease 1.5s forwards}
+.yuklendi .hero-asagi{animation:yumsaqGel 1.1s ease 2.1s forwards}
+
+@keyframes herfQalx{
+  60%{filter:blur(2px)}
+  to{opacity:1;transform:none;filter:blur(0)}
+}
+@keyframes yumsaqGel{to{opacity:1}}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .hero-ad span,.hero-alt,.hero-asagi{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-ad" href="#ust" style="text-decoration:none">ANGEL</a>
+  <div class="nav-menyu">
+    <a href="#xidmetler">Xidmətlər</a>
+    <a href="#ustalar">Ustalar</a>
+    <a href="#qiymetler">Qiymətlər</a>
+    <a href="#rezervasiya">Vaxt al</a>
+  </div>
+</nav>
+
+<header class="hero foto-rejim" id="ust">
+  <div class="hero-fon foto-var" id="hero-fon" aria-hidden="true">
+    <div class="hero-mesh"></div>
+    <div class="hero-foto"><img id="hero-foto-img" src="sekiller/salon.jpg" alt=""></div>
+    <div class="hero-esya" aria-hidden="true">
+      <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+
+        <!-- ═══ ASMA LAMPALAR (sol yuxarı) ═══ -->
+        <g>
+          <path class="e" d="M186 0 L186 128"/>
+          <path class="e" d="M156 128 L216 128 L202 176 L170 176 Z"/>
+          <circle class="e-isiq" cx="186" cy="188" r="8"/>
+          <circle class="e-dolgu" cx="186" cy="188" r="22"/>
+        </g>
+        <g>
+          <path class="e" d="M268 0 L268 82"/>
+          <path class="e" d="M244 82 L292 82 L281 120 L255 120 Z"/>
+          <circle class="e-isiq" cx="268" cy="130" r="6.5"/>
+          <circle class="e-dolgu" cx="268" cy="130" r="18"/>
+        </g>
+        <g>
+          <path class="e" d="M334 0 L334 158"/>
+          <path class="e" d="M314 158 L354 158 L345 190 L323 190 Z"/>
+          <circle class="e-isiq" cx="334" cy="199" r="5.5"/>
+          <circle class="e-dolgu" cx="334" cy="199" r="15"/>
+        </g>
+
+        <!-- ═══ TAĞ FORMALI GÜZGÜ (sol) ═══ -->
+        <path class="e" d="M126 690 L126 428 A 82 82 0 0 1 290 428 L290 690"/>
+        <path class="e-nazik" d="M141 690 L141 432 A 67 67 0 0 1 275 432 L275 690"/>
+        <!-- güzgüdə işıq əksi -->
+        <path class="e-nazik" d="M168 640 L232 470"/>
+        <path class="e-nazik" d="M196 660 L246 528"/>
+        <!-- ayaq -->
+        <path class="e" d="M208 690 L208 742"/>
+        <path class="e" d="M170 744 L246 744"/>
+
+        <!-- ═══ RƏF VƏ ŞÜŞƏLƏR (sağ yuxarı) ═══ -->
+        <path class="e" d="M1128 366 L1348 366"/>
+        <!-- ətir şüşəsi -->
+        <path class="e" d="M1166 366 L1166 300 Q1166 292 1174 292 L1190 292 Q1198 292 1198 300 L1198 366"/>
+        <path class="e" d="M1176 292 L1176 278 L1188 278 L1188 292"/>
+        <path class="e-nazik" d="M1174 282 L1190 282"/>
+        <!-- lak şüşəsi -->
+        <path class="e" d="M1224 366 L1224 316 L1252 316 L1252 366"/>
+        <path class="e" d="M1232 316 L1232 300 L1244 300 L1244 316"/>
+        <path class="e-dolgu" d="M1224 334 L1252 334 L1252 366 L1224 366 Z"/>
+        <!-- krem qabı -->
+        <path class="e" d="M1284 366 L1284 330 Q1284 322 1294 322 L1316 322 Q1326 322 1326 330 L1326 366"/>
+        <path class="e-nazik" d="M1284 336 L1326 336"/>
+
+        <!-- ═══ QURU ÇİÇƏK (sağ aşağı) ═══ -->
+        <path class="e" d="M1236 760 L1244 664 L1310 664 L1318 760 Z"/>
+        <path class="e-nazik" d="M1244 688 L1310 688"/>
+        <!-- saplaqlar -->
+        <path class="e-nazik" d="M1277 664 C1268 600, 1250 556, 1232 522"/>
+        <path class="e-nazik" d="M1277 664 C1276 596, 1278 548, 1282 508"/>
+        <path class="e-nazik" d="M1277 664 C1288 604, 1308 562, 1330 530"/>
+        <path class="e-nazik" d="M1277 664 C1272 610, 1258 574, 1244 548"/>
+        <path class="e-nazik" d="M1277 664 C1286 616, 1300 582, 1314 558"/>
+        <!-- pampas başlıqları -->
+        <ellipse class="e-dolgu" cx="1230" cy="512" rx="11" ry="26" transform="rotate(-18 1230 512)"/>
+        <ellipse class="e-dolgu" cx="1283" cy="498" rx="10" ry="28"/>
+        <ellipse class="e-dolgu" cx="1333" cy="522" rx="10" ry="24" transform="rotate(20 1333 522)"/>
+        <ellipse class="e-dolgu" cx="1242" cy="540" rx="8"  ry="20" transform="rotate(-12 1242 540)"/>
+        <ellipse class="e-dolgu" cx="1317" cy="550" rx="8"  ry="19" transform="rotate(14 1317 550)"/>
+
+        <!-- ═══ QAYÇI VƏ DARAQ (sol aşağı) ═══ -->
+        <g transform="translate(96 806) rotate(-14)">
+          <path class="e" d="M0 0 L58 -34"/>
+          <path class="e" d="M0 -34 L58 0"/>
+          <circle class="e" cx="-9" cy="4" r="8.5"/>
+          <circle class="e" cx="-9" cy="-38" r="8.5"/>
+          <circle class="e" cx="30" cy="-17" r="2.4"/>
+        </g>
+        <g transform="translate(178 812) rotate(-14)">
+          <path class="e" d="M0 0 L74 0 L74 12 L0 12 Z"/>
+          <path class="e-nazik" d="M8 12 L8 30 M18 12 L18 30 M28 12 L28 30 M38 12 L38 30 M48 12 L48 30 M58 12 L58 30 M68 12 L68 30"/>
+        </g>
+
+        <!-- ═══ DİVAR BÖLGÜ XƏTTİ (döşəmə hissi) ═══ -->
+        <path class="e-nazik" d="M0 790 L1440 790" opacity=".1"/>
+      </svg>
+    </div>
+    <div class="hero-divar">
+      <svg viewBox="0 0 460 680" aria-hidden="true">
+
+        <!-- ═══ SAÇ KÜTLƏSİ (yüngül dolğu — həcm verir) ═══ -->
+        <path class="dolgu" style="--son-opacity:.07" fill="var(--gavali)" d="
+          M215 74
+          C126 84, 80 172, 86 292
+          C90 384, 116 476, 158 536
+          L 206 520
+          C 164 458, 140 376, 138 294
+          C 136 198, 164 124, 224 104 Z"/>
+
+        <!-- ═══ SAÇ TELLƏRİ ═══ -->
+        <g class="sac-qrup">
+          <path class="sac-cizgi" d="M215 76  C124 92,  84 176,  90 294  C94 376, 118 458, 156 518"/>
+          <path class="sac-cizgi" d="M203 79  C116 98,  76 184,  82 302  C86 382, 110 462, 146 522"/>
+          <path class="sac-cizgi" d="M228 76  C140 94,  100 182, 106 298 C110 378, 134 456, 170 514"/>
+          <path class="sac-cizgi" d="M244 82  C158 102, 118 190, 124 300 C128 374, 150 448, 184 504"/>
+          <path class="sac-cizgi" d="M260 90  C178 112, 140 198, 144 302 C148 370, 168 440, 198 494"/>
+          <path class="sac-cizgi" d="M190 86  C108 110, 70 200,  76 312  C80 390, 104 466, 140 524"/>
+          <path class="sac-cizgi" d="M274 102 C198 126, 162 208, 164 302 C166 362, 182 424, 208 472"/>
+          <!-- uc hissədə dalğa -->
+          <path class="sac-cizgi" d="M140 524 C150 536, 166 540, 180 532" opacity=".3"/>
+          <path class="sac-cizgi" d="M156 518 C168 530, 184 532, 196 524" opacity=".3"/>
+          <!-- alın üstü saç xətti -->
+          <path class="cizgi" d="M215 74 C170 84, 144 118, 138 162" opacity=".38"/>
+        </g>
+
+        <!-- ═══ ÜZ PROFİLİ ═══ -->
+        <path class="cizgi" d="
+          M215 74
+          C273 74, 305 120, 308 175
+          C310 206, 306 231, 300 245
+          C297 251, 295 255, 299 261
+          C306 276, 325 310, 331 327
+          C334 335, 330 341, 322 343
+          C315 345, 310 348, 309 355"/>
+
+        <!-- burun pəri -->
+        <path class="cizgi" d="M312 331 C306 336, 300 337, 296 334" opacity=".55"/>
+
+        <!-- üst dodaq girintisi -->
+        <path class="cizgi" d="M309 355 C308 363, 312 367, 317 369"/>
+        <!-- ağız xətti -->
+        <path class="cizgi" d="M311 381 C307 385, 305 389, 306 396"/>
+
+        <!-- çənə və çənəaltı -->
+        <path class="cizgi" d="
+          M306 396
+          C305 409, 311 419, 307 431
+          C302 447, 283 457, 259 461
+          C235 465, 213 461, 199 449"/>
+
+        <!-- ═══ QULAQ ═══ -->
+        <path class="cizgi" d="
+          M196 268
+          C186 264, 178 272, 180 284
+          C182 298, 192 310, 200 314" opacity=".5"/>
+        <path class="cizgi" d="M192 280 C190 288, 194 296, 198 300" opacity=".35"/>
+
+        <!-- ═══ QAŞ ═══ -->
+        <path class="cizgi" d="M231 231 C248 218, 278 219, 294 231"/>
+
+        <!-- ═══ GÖZ ═══ -->
+        <path class="cizgi" d="M236 259 C249 246, 275 246, 288 259"/>
+        <path class="cizgi" d="M236 259 C249 271, 275 271, 288 259"/>
+        <!-- göz qapağı qırışı -->
+        <path class="cizgi" d="M239 250 C252 240, 276 240, 288 250" opacity=".4"/>
+        <circle class="cizgi" cx="264" cy="258" r="6.8"/>
+        <circle class="dolgu" style="--son-opacity:.55" cx="264" cy="258" r="3" fill="var(--gavali)"/>
+        <!-- kirpiklər -->
+        <path class="cizgi" d="M288 258 L299 253"/>
+        <path class="cizgi" d="M286 250 L295 243"/>
+        <path class="cizgi" d="M280 245 L285 236"/>
+
+        <!-- ═══ ÜZ CİZGİLƏRİ (yumşaq) ═══ -->
+        <path class="cizgi" d="M296 350 C288 356, 282 362, 280 370" opacity=".24"/>
+        <path class="cizgi" d="M282 424 C272 432, 258 436, 246 435" opacity=".2"/>
+
+        <!-- ═══ DODAQLAR ═══ -->
+        <path class="dodaq dolgu" style="--son-opacity:1" d="
+          M279 371
+          C288 362, 301 362, 309 367
+          C312 369, 315 369, 319 366
+          C316 376, 306 381, 297 381
+          C288 381, 282 377, 279 371 Z"/>
+        <path class="dodaq dolgu" style="--son-opacity:.66" d="
+          M279 373
+          C285 386, 294 393, 302 392
+          C312 390, 318 380, 320 368
+          C315 377, 306 381, 297 381
+          C289 381, 283 378, 279 373 Z"/>
+        <!-- dodaq işığı -->
+        <path class="dolgu" style="--son-opacity:.5" fill="#fff" d="
+          M288 370 C292 366, 299 366, 303 369
+          C299 371, 292 372, 288 370 Z"/>
+
+        <!-- ═══ BOYUN ═══ -->
+        <path class="cizgi" d="M277 459 C274 492, 267 520, 259 546"/>
+        <path class="cizgi" d="M199 449 C198 487, 193 517, 184 546"/>
+        <!-- boyun kölgəsi -->
+        <path class="cizgi" d="M247 466 C244 494, 238 518, 232 538" opacity=".22"/>
+
+        <!-- ═══ ÇİYİN VƏ KÖRPÜCÜK ═══ -->
+        <path class="cizgi" d="M259 546 C298 554, 335 576, 359 610"/>
+        <path class="cizgi" d="M184 546 C146 556, 111 580, 88 614"/>
+        <path class="cizgi" d="M212 566 C232 574, 258 576, 282 570" opacity=".26"/>
+      </svg>
+    </div>
+    <div class="hero-dene"></div>
+    <div class="hero-kenar"></div>
+  </div>
+  <div class="hero-parlaq" aria-hidden="true"></div>
+  <canvas id="sehne" aria-hidden="true"></canvas>
+  <div class="hero-ic">
+    <h1 class="hero-ad" aria-label="ANGEL">
+      <span style="animation-delay:.45s">A</span><span style="animation-delay:.58s">N</span><span style="animation-delay:.71s">G</span><span style="animation-delay:.84s">E</span><span style="animation-delay:.97s">L</span>
+    </h1>
+    <div class="hero-alt">
+      <div class="hero-yer">Nizami küçəsi 42, Bakı</div>
+      <a class="hero-cta" href="#rezervasiya">Vaxt al</a>
+    </div>
+  </div>
+  <div class="hero-asagi">on ikinci il</div>
+</header>
+
+<section class="bolme giris">
+  <div class="dar">
+    <div class="giris-metn">
+      <p>
+        Salonumuz 2014-cü ildən İçərişəhərin yaxınlığında işləyir. Beş ustamız var,
+        hər biri öz sahəsində. Növbəyə qəbul etmirik — hər müştəriyə ayrılan vaxt
+        əvvəlcədən bəllidir, ona görə gecikmə olmur.
+      </p>
+      <p>
+        Boya və baxım məhsullarını Almaniya və İtaliyadan gətiririk. Hansı
+        markadan istifadə etdiyimizi soruşsanız, adını deyirik — gizli saxladığımız
+        bir şey yoxdur.
+      </p>
+      <div class="giris-imza">Aysel Məmmədova, salonun sahibi</div>
+    </div>
+  </div>
+</section>
+
+<section class="bolme" id="xidmetler">
+  <div class="dar">
+    <h2 class="bolme-basliq">Nə edirik</h2>
+    <div id="xidmet-siyahisi"></div>
+  </div>
+</section>
+
+<section class="bolme ustalar" id="ustalar">
+  <div class="dar">
+    <h2 class="bolme-basliq">Ustalar</h2>
+    <div class="usta-sira">
+      <div class="usta">
+        <div class="usta-hərf">L</div>
+        <div class="usta-ad">Leyla Hüseynova</div>
+        <div class="usta-sahe">Rəng və kəsim</div>
+        <div class="usta-il">14 il təcrübə · balayaj üzrə ixtisaslaşır</div>
+      </div>
+      <div class="usta">
+        <div class="usta-hərf">N</div>
+        <div class="usta-ad">Nərmin Əliyeva</div>
+        <div class="usta-sahe">Dırnaq</div>
+        <div class="usta-il">8 il təcrübə · aparat manikürü</div>
+      </div>
+      <div class="usta">
+        <div class="usta-hərf">S</div>
+        <div class="usta-ad">Səbinə Qasımlı</div>
+        <div class="usta-sahe">Üz baxımı və qaş</div>
+        <div class="usta-il">11 il təcrübə · kosmetologiya diplomu</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bolme" id="qiymetler">
+  <div class="dar">
+    <h2 class="bolme-basliq">Qiymətlər</h2>
+    <div class="qiymet-qab">
+      <table>
+        <caption>
+          Saç uzunluğu və məhsul seçimi qiyməti dəyişir. Aşağıdakı rəqəmlər orta
+          uzunluq üçündür — dəqiq məbləği ustanız ilk baxışda deyir.
+        </caption>
+        <thead>
+          <tr><th scope="col">Xidmət</th><th scope="col">Vaxt</th><th scope="col">Qiymət</th></tr>
+        </thead>
+        <tbody id="qiymet-govdesi"></tbody>
+      </table>
+    </div>
+    <p class="qiymet-not">
+      Nağd və kartla ödəniş var. Ləğvetmə üçün 3 saat əvvəl xəbər versəniz,
+      heç bir haqq tutulmur.
+    </p>
+  </div>
+</section>
+
+<section class="bolme rezerv" id="rezervasiya">
+  <div class="dar rezerv-ic">
+    <div class="rezerv-yan">
+      <h2 class="bolme-basliq">Vaxt al</h2>
+      <p>
+        Formanı doldurun, gün ərzində zəng edib vaxtı təsdiqləyirik. Tələsirsinizsə,
+        birbaşa zəng etmək daha sürətlidir.
+      </p>
+      <dl>
+        <dt>Telefon</dt>
+        <dd><a href="tel:+994125550142">+994 12 555 01 42</a></dd>
+        <dt>Ünvan</dt>
+        <dd>Nizami küçəsi 42, Bakı</dd>
+        <dt>İş saatları</dt>
+        <dd>Bazar ertəsi — şənbə, 10:00–20:00<br>Bazar günü bağlıdır</dd>
+      </dl>
+    </div>
+
+    <form id="rezerv-forma" novalidate>
+      <div class="saha">
+        <label for="ad">Adınız</label>
+        <input type="text" id="ad" name="ad" autocomplete="name" required>
+      </div>
+      <div class="saha">
+        <label for="telefon">Telefon</label>
+        <input type="tel" id="telefon" name="telefon" autocomplete="tel"
+               placeholder="+994 __ ___ __ __" required>
+      </div>
+      <div class="saha">
+        <label for="xidmet">Hansı xidmət</label>
+        <select id="xidmet" name="xidmet" required>
+          <option value="">Seçin</option>
+          <option>Saç kəsimi</option>
+          <option>Saç rəngi</option>
+          <option>Balayaj</option>
+          <option>Manikür</option>
+          <option>Pedikür</option>
+          <option>Üz baxımı</option>
+          <option>Qaş forması</option>
+          <option>Toy düzümü</option>
+        </select>
+      </div>
+      <div class="saha">
+        <label for="tarix">Hansı gün</label>
+        <input type="date" id="tarix" name="tarix" required>
+      </div>
+      <div class="saha">
+        <label for="qeyd">Əlavə qeyd</label>
+        <textarea id="qeyd" name="qeyd" rows="2"
+                  placeholder="Səhər saatları daha rahatdır"></textarea>
+      </div>
+      <button class="rezerv-dugme" type="submit">Sorğunu göndər</button>
+      <p class="forma-qeyd">
+        Bu forma hələ serverə bağlanmayıb — göndərmə işləmir. Real saytda burada
+        məlumat salonun poçtuna və ya WhatsApp-a düşür.
+      </p>
+      <div class="rezerv-xeber" id="rezerv-xeber" role="status"></div>
+    </form>
+  </div>
+</section>
+
+<footer class="alt">
+  <div class="alt-sira">
+    <div>
+      <div class="alt-ad">ANGEL</div>
+      <p>Nizami küçəsi 42, Bakı<br>Bazar ertəsi — şənbə, 10:00–20:00</p>
+    </div>
+    <div>
+      <h3>Səhifələr</h3>
+      <ul>
+        <li><a href="#xidmetler">Xidmətlər</a></li>
+        <li><a href="#ustalar">Ustalar</a></li>
+        <li><a href="#qiymetler">Qiymətlər</a></li>
+        <li><a href="#rezervasiya">Vaxt al</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Əlaqə</h3>
+      <ul>
+        <li><a href="tel:+994125550142">+994 12 555 01 42</a></li>
+        <li><a href="mailto:salam@angel.az">salam@angel.az</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="alt-son">
+    Bu nümunə saytdır — ünvan, telefon və qiymətlər real deyil.
+  </div>
+</footer>
+
+<!-- three.js yerli fayldan yüklənir; olmasa CDN-ə keçir -->
+
+<button class="sohbet-dugme" id="sohbet-ac">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.3-.6L3 21l1.8-5a8.2 8.2 0 0 1-.8-3.5 8.4 8.4 0 0 1 9-8.4 8.4 8.4 0 0 1 8 7.4Z"/>
+  </svg>
+  Ustaya yaz
+</button>
+
+<div class="sohbet" id="sohbet" role="dialog" aria-modal="false" aria-label="Salonla söhbət">
+  <div class="sohbet-bas">
+    <div class="sohbet-avatar" aria-hidden="true">A</div>
+    <div class="sohbet-kim">
+      <div class="sohbet-ad">Aysel</div>
+      <div class="sohbet-hal">salonda, cavab verir</div>
+    </div>
+    <button class="sohbet-bagla" id="sohbet-bagla" aria-label="Söhbəti bağla">×</button>
+  </div>
+  <div class="sohbet-lent" id="sohbet-lent"></div>
+  <div class="cipler" id="cipler"></div>
+  <div class="sohbet-alt">
+    <textarea id="sohbet-yazi" rows="1" placeholder="Sualınızı yazın…"
+              aria-label="Mesajınız"></textarea>
+    <button class="sohbet-gonder" id="sohbet-gonder" aria-label="Göndər">
+      <svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+</div>
+
+<script src="lib/three.min.js"></script>
+<script>
+if(typeof THREE === 'undefined'){
+  document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+}
+</script>
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   1. XİDMƏTLƏR
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Xətt-rəsm nişanları — hər xidmətin öz işarəsi */
+const NISANLAR = {
+  sac:`<path d="M13 6 C13 18 21 23 21 31 C21 38 17 43 13 45"/>
+       <path d="M23 6 C23 19 32 24 32 32 C32 39 28 43 24 45"/>
+       <path d="M33 8 C33 20 40 25 40 32 C40 38 37 42 34 44"/>`,
+  dirnaq:`<path d="M15 45 L15 20 C15 12 19 6.5 24 6.5 C29 6.5 33 12 33 20 L33 45"/>
+          <path d="M18.8 17.5 C18.8 12.6 21.1 9.8 24 9.8 C26.9 9.8 29.2 12.6 29.2 17.5
+                   L29.2 30.5 C29.2 32.6 27 33.6 24 33.6 C21 33.6 18.8 32.6 18.8 30.5 Z"/>
+          <path d="M20.5 15.4 C21.9 14 26.1 14 27.5 15.4"/>`,
+  uz:`<path d="M31 7 C21 7 15 15 15 24 C15 29 17 32 17 35 C17 38 14 39 14 41
+             C14 43 17 44 20 44 L30 44"/>
+      <path d="M15 24 L11 26 L15 28"/>
+      <path d="M24 33 C26 35 29 35 31 33"/>
+      <circle cx="36" cy="20" r="2.6"/>`,
+  qas:`<path d="M9 18 C15 11 30 9 40 15"/>
+       <path d="M8 31 C14 24 30 24 40 31 C30 39 14 39 8 31 Z"/>
+       <circle cx="24" cy="31" r="4.6"/>`,
+  toy:`<path d="M24 8 C24 8 19 14 19 19 C19 22.8 21.2 25 24 25 C26.8 25 29 22.8 29 19
+              C29 14 24 8 24 8 Z"/>
+       <path d="M13 16 C13 16 10 23 12 27 C13.6 30.2 16.7 31 19 29.6"/>
+       <path d="M35 16 C35 16 38 23 36 27 C34.4 30.2 31.3 31 29 29.6"/>
+       <path d="M24 25 L24 42"/>
+       <path d="M18 42 L30 42"/>`
+};
+
+const XIDMETLER = [
+  {
+    ad:'Saç', nisan:'sac', reng:'#8E3A66',
+    qisa:'Kəsim, rəng, balayaj, keratin',
+    aralig:'25 – 220 ₼',
+    izah:'Rəngdən əvvəl mütləq bir tel üzərində sınaq edirik — saç quruluşu hər kəsdə fərqli reaksiya verir. Balayajda bir seansda son nəticəyə çatmağa çalışmırıq, saç yanmasın.',
+    siyahi:[
+      ['Qadın kəsimi','25 ₼'],
+      ['Kişi kəsimi','15 ₼'],
+      ['Kök rəngi','45 ₼'],
+      ['Balayaj','120 – 220 ₼'],
+      ['Keratin düzləşdirmə','160 ₼']
+    ]
+  },
+  {
+    ad:'Dırnaq', nisan:'dirnaq', reng:'#BC4A63',
+    qisa:'Aparat manikürü, gel-lak, uzatma',
+    aralig:'20 – 75 ₼',
+    izah:'Alətlər hər müştəridən sonra avtoklavda sterilizasiya olunur — istəsəniz prosesi göstərə bilərik. Aparatla işləyirik, dəri kəsmirik.',
+    siyahi:[
+      ['Aparat manikürü','20 ₼'],
+      ['Gel-lak örtük','35 ₼'],
+      ['Pedikür','40 ₼'],
+      ['Dırnaq uzatma','75 ₼'],
+      ['Dizayn (bir dırnaq)','3 ₼']
+    ]
+  },
+  {
+    ad:'Üz baxımı', nisan:'uz', reng:'#3E8C74',
+    qisa:'Təmizləmə, pilinq, nəmləndirmə',
+    aralig:'50 – 180 ₼',
+    izah:'İlk gəlişdə dəri tipini müəyyən edirik və hansı proseduru nə qədər aralıqla təkrarlamağın lazım olduğunu deyirik. Bir seansda hər şeyi düzəltmək vədi vermirik.',
+    siyahi:[
+      ['Mexaniki təmizləmə','60 ₼'],
+      ['Ultrasəs təmizləmə','50 ₼'],
+      ['Kimyəvi pilinq','90 ₼'],
+      ['Alginat maska','45 ₼'],
+      ['Kurs (4 seans)','180 ₼']
+    ]
+  },
+  {
+    ad:'Qaş və kirpik', nisan:'qas', reng:'#4C7BAE',
+    qisa:'Forma, boya, laminasiya, uzatma',
+    aralig:'12 – 90 ₼',
+    izah:'Qaş formasını üz cizgilərinizə uyğun seçirik, dəb olan formaya deyil. Kirpik uzatmada süni qatı ağırlıq salmasın deyə öz kirpiyinizin gücünə baxırıq.',
+    siyahi:[
+      ['Qaş forması','12 ₼'],
+      ['Qaş boyası','18 ₼'],
+      ['Qaş laminasiyası','40 ₼'],
+      ['Kirpik laminasiyası','45 ₼'],
+      ['Kirpik uzatma','90 ₼']
+    ]
+  },
+  {
+    ad:'Toy və tədbir', nisan:'toy', reng:'#A8863F',
+    qisa:'Makiyaj, saç düzümü, sınaq görüşü',
+    aralig:'80 – 350 ₼',
+    izah:'Toy günündən ən azı bir həftə əvvəl sınaq keçiririk ki, günü dəyişiklik etmək lazım gəlməsin. Sınaq zamanı şəkil çəkirik — işıqda necə göründüyü aynadakından fərqlidir.',
+    siyahi:[
+      ['Tədbir makiyajı','80 ₼'],
+      ['Saç düzümü','90 ₼'],
+      ['Gəlin paketi','350 ₼'],
+      ['Sınaq görüşü','60 ₼'],
+      ['Evə gəlmə','+50 ₼']
+    ]
+  }
+];
+
+const QIYMETLER = [
+  ['Qadın saç kəsimi','40 dəq','25 ₼'],
+  ['Kök rəngi','1 saat 20 dəq','45 ₼'],
+  ['Balayaj','3 – 4 saat','120 – 220 ₼'],
+  ['Keratin düzləşdirmə','2 saat 30 dəq','160 ₼'],
+  ['Aparat manikürü','50 dəq','20 ₼'],
+  ['Gel-lak örtük','1 saat 10 dəq','35 ₼'],
+  ['Pedikür','1 saat','40 ₼'],
+  ['Mexaniki üz təmizləməsi','1 saat 15 dəq','60 ₼'],
+  ['Kimyəvi pilinq','45 dəq','90 ₼'],
+  ['Qaş forması və boyası','30 dəq','30 ₼'],
+  ['Kirpik uzatma','2 saat','90 ₼'],
+  ['Gəlin paketi','4 saat','350 ₼']
+];
+
+
+/* Xidmət sətirlərini qur */
+const siyahiEl = document.getElementById('xidmet-siyahisi');
+
+XIDMETLER.forEach((x,i)=>{
+  const id = 'xidmet-'+i;
+  const el = document.createElement('div');
+  el.className = 'xidmet';
+  el.dataset.aciq = 'false';
+  el.style.setProperty('--acc', x.reng);
+
+  el.innerHTML = `
+    <button class="xidmet-bas" aria-expanded="false" aria-controls="${id}">
+      <svg class="xidmet-nisan" viewBox="0 0 48 48" aria-hidden="true">
+        ${NISANLAR[x.nisan] || ''}
+      </svg>
+      <span class="xidmet-yazi">
+        <span class="xidmet-ad">${x.ad}</span>
+        <span class="xidmet-qisa">${x.qisa}</span>
+      </span>
+      <span class="xidmet-qiymet">${x.aralig}</span>
+      <span class="xidmet-isare" aria-hidden="true">+</span>
+    </button>
+    <div class="xidmet-govde" id="${id}">
+      <div>
+        <div class="xidmet-ic">
+          <p class="xidmet-izah">${x.izah}</p>
+          <ul class="xidmet-siyahi">
+            ${x.siyahi.map((r,k)=>
+              `<li style="transition-delay:${(0.1+k*0.055).toFixed(2)}s">
+                 <span>${r[0]}</span><span>${r[1]}</span>
+               </li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    </div>`;
+
+  /* Element əvvəlcə sənədə əlavə olunur — getTotalLength ancaq
+     render olunmuş elementdə işləyir. */
+  siyahiEl.appendChild(el);
+
+  const yollar = [...el.querySelectorAll('.xidmet-nisan path, .xidmet-nisan circle')];
+  yollar.forEach(y=>{
+    let uz = 120;
+    try{ uz = y.getTotalLength() || 120; }catch(xeta){ /* ölçülməzsə ehtiyat dəyər */ }
+    y.dataset.uzunluq = uz;
+    y.style.strokeDasharray = uz;
+    y.style.strokeDashoffset = 0;      /* dincəlmə halında tam görünür */
+    y.style.transition = 'stroke-dashoffset 1.1s cubic-bezier(.3,.9,.3,1)';
+  });
+
+  /* Sətir açılanda ikon yenidən cizilir: əvvəlcə silinir, sonra çəkilir */
+  function nisaniCiz(gorunsun){
+    if(!gorunsun) return;               /* bağlananda ikon yerində qalır */
+    yollar.forEach(y=>{
+      y.style.transition = 'none';
+      y.style.transitionDelay = '0s';
+      y.style.strokeDashoffset = y.dataset.uzunluq;
+    });
+    /* növbəti kadrda animasiyanı geri qaytar */
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      yollar.forEach((y,k)=>{
+        y.style.transition = 'stroke-dashoffset 1.1s cubic-bezier(.3,.9,.3,1)';
+        y.style.transitionDelay = (k*0.09).toFixed(2)+'s';
+        y.style.strokeDashoffset = 0;
+      });
+    }));
+  }
+
+  const dugme = el.querySelector('.xidmet-bas');
+  dugme.addEventListener('click',()=>{
+    const aciq = el.dataset.aciq === 'true';
+
+    document.querySelectorAll('.xidmet[data-aciq="true"]').forEach(d=>{
+      d.dataset.aciq='false';
+      d.querySelector('.xidmet-bas').setAttribute('aria-expanded','false');
+      if(d._nisaniCiz) d._nisaniCiz(false);
+    });
+
+    if(!aciq){
+      el.dataset.aciq='true';
+      dugme.setAttribute('aria-expanded','true');
+      nisaniCiz(true);
+    }
+  });
+
+  el._nisaniCiz = nisaniCiz;
+});
+
+/* Nişanlar ilk dəfə ekrana gələndə bir dəfə çəkilir */
+if('IntersectionObserver' in window){
+  const izleyici = new IntersectionObserver((girisler,o)=>{
+    girisler.forEach(g=>{
+      if(g.isIntersecting){
+        if(g.target._nisaniCiz) g.target._nisaniCiz(true);
+        o.unobserve(g.target);
+      }
+    });
+  },{threshold:.4});
+  document.querySelectorAll('.xidmet').forEach(el=>izleyici.observe(el));
+}else{
+  document.querySelectorAll('.xidmet').forEach(el=>{
+    if(el._nisaniCiz) el._nisaniCiz(true);
+  });
+}
+
+/* Qiymət cədvəli */
+document.getElementById('qiymet-govdesi').innerHTML = QIYMETLER.map(q=>`
+  <tr>
+    <td class="qiymet-ad">${q[0]}</td>
+    <td class="qiymet-vaxt">${q[1]}</td>
+    <td class="qiymet-mebleg">${q[2]}</td>
+  </tr>`).join('');
+
+/* ═══════════════════════════════════════════════════════════════
+   2. FORMA
+   Server yoxdur — nə göndərildiyini göstərir, göndərmir.
+   ═══════════════════════════════════════════════════════════════ */
+
+const forma = document.getElementById('rezerv-forma');
+const xeber = document.getElementById('rezerv-xeber');
+
+forma.addEventListener('submit', e=>{
+  e.preventDefault();
+  const d = new FormData(forma);
+  const bos = ['ad','telefon','xidmet','tarix'].filter(k=>!d.get(k));
+
+  if(bos.length){
+    xeber.textContent = 'Ad, telefon, xidmət və gün doldurulmalıdır.';
+    xeber.classList.add('gorunur');
+    forma.querySelector(`[name="${bos[0]}"]`).focus();
+    return;
+  }
+
+  xeber.innerHTML = `
+    Forma serverə bağlı olmadığı üçün sorğu göndərilmədi. Real saytda salona
+    bu məlumat düşərdi:<br><br>
+    <strong>${d.get('ad')}</strong> · ${d.get('telefon')}<br>
+    ${d.get('xidmet')} · ${d.get('tarix')}
+    ${d.get('qeyd') ? '<br>Qeyd: '+d.get('qeyd') : ''}`;
+  xeber.classList.add('gorunur');
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   3. 3D SƏHNƏ — sedef forması
+   Torus (güzgü çərçivəsi) + mərvari kürələr.
+   İridescent görünüş üç rəngli işıqdan gəlir, doku faylı yoxdur.
+   ═══════════════════════════════════════════════════════════════ */
+
+(function(){
+  const kanvas = document.getElementById('sehne');
+  if(!kanvas || typeof THREE === 'undefined') return;
+
+  const sakit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const mobil = window.matchMedia('(max-width: 700px)').matches;
+
+  const renderer = new THREE.WebGLRenderer({
+    canvas:kanvas, antialias:true, alpha:true
+  });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, mobil ? 1.6 : 2));
+
+  const sehne  = new THREE.Scene();
+  const kamera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+  kamera.position.set(0, 0, mobil ? 10.6 : 9.5);
+
+  const qrup = new THREE.Group();
+  sehne.add(qrup);
+
+  /* ── Materiallar ── */
+  function sedefMaterial(reng, kobudluq){
+    return new THREE.MeshPhysicalMaterial({
+      color:reng,
+      roughness:kobudluq,
+      metalness:0.04,
+      clearcoat:1,
+      clearcoatRoughness:0.08,
+      reflectivity:0.6
+    });
+  }
+
+  /* ── Mərkəz halqa (güzgü çərçivəsi) ── */
+  const halqa = new THREE.Mesh(
+    new THREE.TorusGeometry(2.05, 0.42, mobil?36:64, mobil?90:150),
+    sedefMaterial(0xF4F1EC, 0.12)
+  );
+  halqa.rotation.x = 0.42;
+  qrup.add(halqa);
+
+  /* ── Nazik ikinci halqa ── */
+  const halqa2 = new THREE.Mesh(
+    new THREE.TorusGeometry(2.62, 0.055, 16, mobil?70:120),
+    sedefMaterial(0xC9B78F, 0.25)
+  );
+  halqa2.rotation.x = -0.55;
+  halqa2.rotation.y = 0.3;
+  qrup.add(halqa2);
+
+  /* ── Mərkəz mərvari ── */
+  const mervari = new THREE.Mesh(
+    new THREE.SphereGeometry(1.02, mobil?36:64, mobil?26:48),
+    sedefMaterial(0xEDE7E2, 0.07)
+  );
+  qrup.add(mervari);
+
+  /* ── Orbitdəki kiçik mərvarilər ── */
+  const kicikler = [];
+  const yerler = [
+    {r:2.78, a:0.5,  y: 1.62, s:0.28},
+    {r:2.92, a:2.1,  y:-1.72, s:0.21},
+    {r:2.62, a:3.6,  y: 1.95, s:0.16},
+    {r:3.00, a:4.8,  y:-1.05, s:0.24},
+    {r:2.72, a:5.7,  y: 0.95, s:0.13}
+  ];
+
+  yerler.forEach((p,i)=>{
+    const m = new THREE.Mesh(
+      new THREE.SphereGeometry(p.s, 28, 22),
+      sedefMaterial(i%2 ? 0xE8DED6 : 0xF2EDE6, 0.1)
+    );
+    m.position.set(Math.cos(p.a)*p.r, p.y, Math.sin(p.a)*p.r);
+    m.userData = {...p, faza:i*1.3};
+    kicikler.push(m);
+    qrup.add(m);
+  });
+
+  /* ── İşıqlar: iridescent effektin mənbəyi ── */
+  sehne.add(new THREE.AmbientLight(0xE4E8E2, 0.5));
+
+  const acar = new THREE.DirectionalLight(0xFFFCF7, 1.95);
+  acar.position.set(3.4, 4.2, 3.8);
+  sehne.add(acar);
+
+  const gavaliIsiq = new THREE.PointLight(0x9E3A6B, 2.1, 20);
+  gavaliIsiq.position.set(-4.6, 1.4, 2.6);
+  sehne.add(gavaliIsiq);
+
+  const adacayiIsiq = new THREE.PointLight(0x4FAE92, 1.7, 20);
+  adacayiIsiq.position.set(3.6, -3.2, 1.8);
+  sehne.add(adacayiIsiq);
+
+  const qizilIsiq = new THREE.PointLight(0xE0AC44, 1.6, 20);
+  qizilIsiq.position.set(0, 2.2, -4.4);
+  sehne.add(qizilIsiq);
+
+  const konturIsiq = new THREE.PointLight(0xBE3F70, 1.25, 24);
+  konturIsiq.position.set(-1.6, -2.4, -5.2);
+  sehne.add(konturIsiq);
+
+  const firuzeIsiq = new THREE.PointLight(0x4C8FC4, 1.25, 20);
+  firuzeIsiq.position.set(-2.2, -3.4, -2.8);
+  sehne.add(firuzeIsiq);
+
+  /* ── Ölçü ── */
+  function olcuVer(){
+    const en = kanvas.clientWidth || 1;
+    const hu = kanvas.clientHeight || 1;
+    renderer.setSize(en, hu, false);
+    kamera.aspect = en/hu;
+    kamera.updateProjectionMatrix();
+  }
+  olcuVer();
+  window.addEventListener('resize', olcuVer);
+
+  /* ── Siçan paralaksı ── */
+  let hedefX = 0, hedefY = 0, cariX = 0, cariY = 0;
+
+  if(!mobil && !sakit){
+    window.addEventListener('pointermove', e=>{
+      hedefX = (e.clientX/window.innerWidth  - 0.5) * 0.5;
+      hedefY = (e.clientY/window.innerHeight - 0.5) * 0.34;
+    }, {passive:true});
+  }
+
+  /* ── Yükləmə: forma yerinə oturur ── */
+  let baslama = null;
+  const GIRIS = 2000;
+
+  /* ── Hero ekranda deyilsə dayandır ── */
+  let gorunur = true;
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(g=>{ gorunur = g[0].isIntersecting; },
+      {threshold:0}).observe(document.getElementById('ust'));
+  }
+
+  function yumsaq(t){ return 1 - Math.pow(1-t, 3); }
+
+  function dovr(vaxt){
+    requestAnimationFrame(dovr);
+    if(!gorunur) return;
+
+    if(baslama === null) baslama = vaxt;
+    const kecen = vaxt - baslama;
+    const giris = sakit ? 1 : Math.min(kecen/GIRIS, 1);
+    const e = yumsaq(giris);
+
+    /* giriş: kiçikdən böyüyür, bir az aşıb yerinə oturur */
+    const asma = Math.sin(giris*Math.PI)*0.055;
+    qrup.scale.setScalar(0.48 + 0.52*e + asma);
+
+    /* işıqlar da tədricən qüvvəyə girir */
+    gavaliIsiq.intensity  = 2.10*e;
+    adacayiIsiq.intensity = 1.70*e;
+    qizilIsiq.intensity   = 1.60*e;
+    firuzeIsiq.intensity  = 1.25*e;
+
+    const t = sakit ? 0 : kecen*0.001;
+
+    qrup.rotation.y = (1-e)*(-1.75) + t*0.13;
+    qrup.rotation.x = (1-e)*0.62   + Math.sin(t*0.4)*0.05;
+
+    halqa2.rotation.z = t*0.22;
+
+    kicikler.forEach(m=>{
+      const d = m.userData;
+      const a = d.a + t*0.2;
+      m.position.x = Math.cos(a)*d.r;
+      m.position.z = Math.sin(a)*d.r;
+      m.position.y = d.y + Math.sin(t*0.75 + d.faza)*0.2;
+    });
+
+    /* paralaks */
+    cariX += (hedefX - cariX)*0.045;
+    cariY += (hedefY - cariY)*0.045;
+    kamera.position.x = cariX*2.6;
+    kamera.position.y = -cariY*2.2;
+    kamera.lookAt(0,0,0);
+
+    renderer.render(sehne, kamera);
+  }
+
+  requestAnimationFrame(dovr);
+
+  /* Tünd bölmələr naviqasiyanın altından keçəndə rəngi çevir */
+  (function(){
+    const nav = document.querySelector('.nav');
+    const tundlar = [...document.querySelectorAll('.ustalar,.alt')];
+    if(!nav || !tundlar.length) return;
+
+    function navRengi(){
+      const bant = 62;
+      const ustunde = tundlar.some(el=>{
+        const r = el.getBoundingClientRect();
+        return r.top < bant && r.bottom > 0;
+      });
+      nav.classList.toggle('nav-isiq', ustunde);
+      nav.classList.toggle('nav-yapisqan', window.scrollY > 40);
+
+      /* fotolu hero naviqasiyanın altındadırsa, yazılar açıq rəngdə */
+      const hero = document.querySelector('.hero.foto-rejim');
+      if(hero){
+        const h = hero.getBoundingClientRect();
+        nav.classList.toggle('nav-foto', h.bottom > bant && window.scrollY < 60);
+      }
+    }
+    window.addEventListener('scroll', navRengi, {passive:true});
+    window.addEventListener('resize', navRengi);
+    navRengi();
+  })();
+
+  /* Yükləmə animasiyasını başlat */
+  requestAnimationFrame(()=> document.body.classList.add('yuklendi'));
+})();
+
+
+/* ═══════════════════════════════════════════════════════════════
+   SÖHBƏT — salon ustası
+   Server qoşulmayıbsa, saytdakı məlumatdan cavab verir.
+   SERVER doldurulanda sərbəst suallar süni intellektə gedir və
+   rezervasiya Telegram-a düşür.
+   ═══════════════════════════════════════════════════════════════ */
+(function(){
+
+  /* ⬇⬇ SERVERİNİZİN ÜNVANI — boş qalsa bot oflayn işləyir ⬇⬇ */
+  const SERVER = '';           // məs: 'https://salon.angel.az'
+
+  const TELEFON = '+994125550142';
+
+  const lent   = document.getElementById('sohbet-lent');
+  const ciplerEl = document.getElementById('cipler');
+  const yazi   = document.getElementById('sohbet-yazi');
+  const gonder = document.getElementById('sohbet-gonder');
+  const panel  = document.getElementById('sohbet');
+  const acDugme= document.getElementById('sohbet-ac');
+  if(!lent) return;
+
+  let acilib = false;
+  let addim  = null;            /* rezervasiya mərhələsi */
+  const sifaris = {};
+  const tarixce = [];           /* AI üçün söhbət tarixi */
+
+  /* ── köməkçilər ── */
+  function mesaj(metn, kim){
+    const d = document.createElement('div');
+    d.className = 'mesaj mesaj-' + (kim || 'usta');
+    d.innerHTML = metn;
+    lent.appendChild(d);
+    lent.scrollTop = lent.scrollHeight;
+    if(kim !== 'musteri') tarixce.push({rol:'usta', metn});
+    return d;
+  }
+
+  function yazirGoster(){
+    const d = document.createElement('div');
+    d.className = 'yazir';
+    d.innerHTML = '<i></i><i></i><i></i>';
+    lent.appendChild(d);
+    lent.scrollTop = lent.scrollHeight;
+    return d;
+  }
+
+  /* İnsan kimi fasilə ilə cavab */
+  function cavab(metn, gecikme){
+    const y = yazirGoster();
+    const vaxt = gecikme || Math.min(1500, 420 + metn.length * 11);
+    return new Promise(hell=>{
+      setTimeout(()=>{ y.remove(); mesaj(metn); hell(); }, vaxt);
+    });
+  }
+
+  function cipQoy(siyahi){
+    ciplerEl.innerHTML = '';
+    (siyahi||[]).forEach(c=>{
+      const b = document.createElement('button');
+      b.className = 'cip';
+      b.textContent = c;
+      b.onclick = ()=>{ ciplerEl.innerHTML=''; gonderMesaj(c); };
+      ciplerEl.appendChild(b);
+    });
+    /* çiplər yer tutduğu üçün son mesaj gizlənməsin */
+    requestAnimationFrame(()=>{ lent.scrollTop = lent.scrollHeight; });
+  }
+
+  const CIP_ESAS = ['Qiymətlər','Vaxt almaq istəyirəm','Saç boyası','Harada yerləşirsiniz?'];
+
+  /* ── saytdakı məlumatdan cavab qurma ── */
+  function xidmetTap(metn){
+    const m = metn.toLowerCase();
+    return XIDMETLER.find(x=>{
+      const acar = (x.ad + ' ' + x.qisa).toLowerCase();
+      return acar.split(/[\s,]+/).some(s=> s.length>3 && m.includes(s.slice(0,5)));
+    });
+  }
+
+  function xidmetCavabi(x){
+    const s = x.siyahi.map(r=>`• ${r[0]} — <b>${r[1]}</b>`).join('\n');
+    return `<b>${x.ad}</b>\n${x.izah}\n\n${s}\n\nVaxt almaq istəyirsinizsə deyin, yazım.`;
+  }
+
+  function qiymetCavabi(){
+    const s = XIDMETLER.map(x=>`• ${x.ad} — <b>${x.aralig}</b>`).join('\n');
+    return `Qiymət aralıqlarımız belədir:\n\n${s}\n\nHansı barədə ətraflı deyim?`;
+  }
+
+  /* Oflayn məntiq — açar sözlərə görə */
+  function oflaynCavab(metn){
+    const m = metn.toLowerCase();
+
+    if(/salam|sabah|axşam|gün/.test(m) && m.length < 25)
+      return 'Salam! Mən Aysel, ANGEL salonunun ustasıyam. Nə barədə soruşmaq istəyirsiniz?';
+
+    if(/qiymət|neçə|manat|nə qədər|ucuz|baha/.test(m)) return qiymetCavabi();
+
+    if(/harda|harada|ünvan|yer|gəlmək|metro/.test(m))
+      return 'Nizami küçəsi 42-də yerləşirik, İçərişəhərə yaxın.\nBazar ertəsindən şənbəyə qədər 10:00–20:00 işləyirik, bazar günü bağlıyıq.';
+
+    if(/saat|açıq|bağlı|iş vaxt|nə vaxt işl/.test(m))
+      return 'Bazar ertəsi — şənbə, 10:00–20:00. Bazar günü bağlıyıq.\nSon müştərini 19:00-da qəbul edirik.';
+
+    if(/vaxt|yazıl|rezerv|növbə|qeydiyyat|gəlim|gəlmək istəy/.test(m)){
+      addim = 'ad';
+      return 'Məmnuniyyətlə yazıram. Adınız necədir?';
+    }
+
+    const x = xidmetTap(metn);
+    if(x) return xidmetCavabi(x);
+
+    if(/usta|kim|leyla|nərmin|səbinə/.test(m))
+      return 'Üç ustamız var:\n• Leyla — rəng və kəsim, 14 il\n• Nərmin — dırnaq, 8 il\n• Səbinə — üz baxımı və qaş, 11 il\n\nKimə yazılmaq istəyirsiniz?';
+
+    if(/təşəkkür|sağ ol|çox sağ/.test(m))
+      return 'Dəyməz. Başqa sualınız olsa yazın.';
+
+    return 'Bunu dəqiq deyə bilmirəm. Xidmətlər, qiymətlər və vaxt almaq barədə soruşa bilərsiniz — ya da birbaşa zəng edin: ' + TELEFON;
+  }
+
+  /* ── rezervasiya axını ── */
+  async function rezervAddimi(metn){
+    if(addim === 'ad'){
+      sifaris.ad = metn.trim();
+      addim = 'telefon';
+      await cavab(`Xoş gördük, ${sifaris.ad}. Telefon nömrənizi yazın — təsdiq üçün zəng edəcəyik.`);
+      return;
+    }
+    if(addim === 'telefon'){
+      const req = metn.replace(/\D/g,'');
+      if(req.length < 9){
+        await cavab('Nömrə tam görünmür. 9 rəqəmli nömrəni yazın, məsələn 0501112233.');
+        return;
+      }
+      sifaris.telefon = metn.trim();
+      addim = 'xidmet';
+      await cavab('Hansı xidmət üçün gəlirsiniz?');
+      cipQoy(XIDMETLER.map(x=>x.ad));
+      return;
+    }
+    if(addim === 'xidmet'){
+      sifaris.xidmet = metn.trim();
+      addim = 'vaxt';
+      await cavab('Hansı gün və təxminən neçədə rahatdır?\nMəsələn: "cümə günortadan sonra" ya da "15 sentyabr saat 14:00".');
+      return;
+    }
+    if(addim === 'vaxt'){
+      sifaris.vaxt = metn.trim();
+      addim = 'tesdiq';
+      await cavab(
+        `Yekunlaşdırıram:\n\n` +
+        `<b>Ad:</b> ${sifaris.ad}\n` +
+        `<b>Telefon:</b> ${sifaris.telefon}\n` +
+        `<b>Xidmət:</b> ${sifaris.xidmet}\n` +
+        `<b>Vaxt:</b> ${sifaris.vaxt}\n\n` +
+        `Düzdürmü?`);
+      cipQoy(['Bəli, göndər','Düzəliş edim']);
+      return;
+    }
+    if(addim === 'tesdiq'){
+      if(/düzəliş|yox|səhv/i.test(metn)){
+        addim = 'ad';
+        await cavab('Yaxşı, əvvəldən yazaq. Adınız?');
+        return;
+      }
+      addim = null;
+      await sifarisGonder();
+    }
+  }
+
+  async function sifarisGonder(){
+    if(!SERVER){
+      await cavab(
+        'Sorğunuz hazırdır, amma sayt hələ salonun sisteminə bağlanmayıb, ' +
+        'ona görə avtomatik göndərə bilmirəm.\n\n' +
+        `Zəhmət olmasa zəng edin: <b>${TELEFON}</b>\n` +
+        'Məlumatı əlimdə saxladım, zəng edəndə təkrar deməyə ehtiyac yoxdur.');
+      cipQoy(CIP_ESAS);
+      return;
+    }
+    const y = yazirGoster();
+    try{
+      const c = await fetch(SERVER + '/rezerv', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(sifaris)
+      });
+      y.remove();
+      if(!c.ok) throw new Error('server');
+      mesaj('Göndərildi. Salon sizə bu gün ərzində zəng edib vaxtı təsdiqləyəcək.\nBaşqa sualınız var?');
+    }catch(e){
+      y.remove();
+      mesaj('Göndərmək alınmadı — bağlantıda problem var.\n' +
+            `Zəhmət olmasa zəng edin: <b>${TELEFON}</b>`);
+    }
+    cipQoy(CIP_ESAS);
+  }
+
+  /* ── sərbəst sual: server varsa AI, yoxsa oflayn ── */
+  async function serbestSual(metn){
+    if(!SERVER){
+      await cavab(oflaynCavab(metn));
+      if(addim === 'ad') return;
+      cipQoy(CIP_ESAS);
+      return;
+    }
+    const y = yazirGoster();
+    try{
+      const c = await fetch(SERVER + '/chat', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ sual: metn, tarixce: tarixce.slice(-8) })
+      });
+      const d = await c.json();
+      y.remove();
+      mesaj(d.cavab || oflaynCavab(metn));
+      if(d.rezerv_basla){ addim = 'ad'; return; }
+    }catch(e){
+      y.remove();
+      mesaj(oflaynCavab(metn));
+    }
+    cipQoy(CIP_ESAS);
+  }
+
+  /* ── mesaj göndərmə ── */
+  async function gonderMesaj(metn){
+    if(!metn.trim()) return;
+    mesaj(metn, 'musteri');
+    tarixce.push({rol:'musteri', metn});
+    yazi.value = '';
+    yazi.style.height = 'auto';
+    ciplerEl.innerHTML = '';
+
+    if(addim){ await rezervAddimi(metn); return; }
+
+    /* açar sözlə rezervasiya başlaya bilər */
+    const oflayn = oflaynCavab(metn);
+    if(addim === 'ad'){ await cavab(oflayn); return; }
+
+    await serbestSual(metn);
+  }
+
+  gonder.onclick = ()=> gonderMesaj(yazi.value);
+  yazi.addEventListener('keydown', e=>{
+    if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); gonderMesaj(yazi.value); }
+  });
+  yazi.addEventListener('input', ()=>{
+    yazi.style.height = 'auto';
+    yazi.style.height = Math.min(yazi.scrollHeight, 96) + 'px';
+  });
+
+  /* ── açma / bağlama ── */
+  function ac(){
+    acilib = true;
+    panel.classList.add('aciq');
+    acDugme.hidden = true;
+    if(!lent.children.length){
+      setTimeout(async ()=>{
+        await cavab('Salam! Mən Aysel, ANGEL-in ustasıyam.\nXidmətlər, qiymətlər barədə soruşa bilərsiniz — ya da birbaşa vaxt yazdıraq.', 700);
+        cipQoy(CIP_ESAS);
+      }, 350);
+    }
+    setTimeout(()=> yazi.focus(), 380);
+  }
+  function bagla(){
+    acilib = false;
+    panel.classList.remove('aciq');
+    acDugme.hidden = false;
+  }
+
+  acDugme.onclick = ac;
+  document.getElementById('sohbet-bagla').onclick = bagla;
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape' && acilib) bagla(); });
+
+  /* "Vaxt al" düymələri söhbəti aça bilsin */
+  document.querySelectorAll('[data-sohbet]').forEach(d=>{
+    d.addEventListener('click', e=>{ e.preventDefault(); ac(); });
+  });
+})();
+
+/* three.js yüklənməsə də mətn görünsün */
+if(typeof THREE === 'undefined'){
+  document.body.classList.add('yuklendi');
+}
+</script>
+</body>
+</html>
