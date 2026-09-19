@@ -1336,8 +1336,7 @@ tbody tr:hover{background:var(--sedef-ac)}
       </div>
       <button class="rezerv-dugme" type="submit">Sorğunu göndər</button>
       <p class="forma-qeyd">
-        Bu forma hələ serverə bağlanmayıb — göndərmə işləmir. Real saytda burada
-        məlumat salonun poçtuna və ya WhatsApp-a düşür.
+        Sorğunuz salona dərhal çatır. Təsdiq üçün gün ərzində sizə zəng edirik.
       </p>
       <div class="rezerv-xeber" id="rezerv-xeber" role="status"></div>
     </form>
@@ -1642,7 +1641,10 @@ document.getElementById('qiymet-govdesi').innerHTML = QIYMETLER.map(q=>`
 const forma = document.getElementById('rezerv-forma');
 const xeber = document.getElementById('rezerv-xeber');
 
-forma.addEventListener('submit', e=>{
+const FORMA_SERVER = 'https://angel-bot.qasimovsirali99.workers.dev';
+const SALON_TELEFON = '+994 12 555 01 42';
+
+forma.addEventListener('submit', async e=>{
   e.preventDefault();
   const d = new FormData(forma);
   const bos = ['ad','telefon','xidmet','tarix'].filter(k=>!d.get(k));
@@ -1654,13 +1656,47 @@ forma.addEventListener('submit', e=>{
     return;
   }
 
-  xeber.innerHTML = `
-    Forma serverə bağlı olmadığı üçün sorğu göndərilmədi. Real saytda salona
-    bu məlumat düşərdi:<br><br>
-    <strong>${d.get('ad')}</strong> · ${d.get('telefon')}<br>
-    ${d.get('xidmet')} · ${d.get('tarix')}
-    ${d.get('qeyd') ? '<br>Qeyd: '+d.get('qeyd') : ''}`;
-  xeber.classList.add('gorunur');
+  const reqemler = String(d.get('telefon')).replace(/[^0-9]/g, '');
+  if(reqemler.length < 9){
+    xeber.textContent = 'Telefon nömrəsi tam görünmür. Nümunə: +994 55 123 45 67';
+    xeber.classList.add('gorunur');
+    forma.querySelector('[name="telefon"]').focus();
+    return;
+  }
+
+  const dugme = forma.querySelector('.rezerv-dugme');
+  dugme.disabled = true;
+  dugme.textContent = 'Göndərilir…';
+  xeber.textContent = '';
+  xeber.classList.remove('gorunur');
+
+  try{
+    const c = await fetch(FORMA_SERVER + '/rezerv', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        ad:      d.get('ad'),
+        telefon: d.get('telefon'),
+        xidmet:  d.get('xidmet'),
+        tarix:   d.get('tarix'),
+        qeyd:    d.get('qeyd') || '',
+        menbe:   'forma'
+      })
+    });
+    if(!c.ok) throw new Error('server');
+
+    forma.reset();
+    xeber.innerHTML =
+      'Sorğunuz salona çatdı. Gün ərzində zəng edib vaxtı təsdiqləyəcəyik.';
+  }catch(err){
+    xeber.innerHTML =
+      'Göndərmək alınmadı — bağlantıda problem var.<br>' +
+      `Zəhmət olmasa zəng edin: <strong>${SALON_TELEFON}</strong>`;
+  }finally{
+    dugme.disabled = false;
+    dugme.textContent = 'Sorğunu göndər';
+    xeber.classList.add('gorunur');
+  }
 });
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1893,7 +1929,10 @@ forma.addEventListener('submit', e=>{
 (function(){
 
   /* ⬇⬇ SERVERİNİZİN ÜNVANI — boş qalsa bot oflayn işləyir ⬇⬇ */
-  const SERVER = '';           // məs: 'https://salon.angel.az'
+  const SERVER = 'https://angel-bot.qasimovsirali99.workers.dev';
+
+  /* Sərbəst suallar süni intellektə getsin? Worker-də /chat hazır olanda true et. */
+  const AI_CHAT = false;
 
   const TELEFON = '+994125550142';
 
@@ -2085,7 +2124,7 @@ forma.addEventListener('submit', e=>{
 
   /* ── sərbəst sual: server varsa AI, yoxsa oflayn ── */
   async function serbestSual(metn){
-    if(!SERVER){
+    if(!SERVER || !AI_CHAT){
       await cavab(oflaynCavab(metn));
       if(addim === 'ad') return;
       cipQoy(CIP_ESAS);
