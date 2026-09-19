@@ -81,7 +81,15 @@ a{color:inherit}
 .nav.nav-isiq{mix-blend-mode:normal;color:var(--sedef-ac)}
 .nav.nav-isiq .nav-menyu a:hover{border-bottom-color:var(--sedef-ac)}
 
-@media(max-width:640px){.nav-menyu a:nth-child(-n+2){display:none}}
+@media(max-width:640px){
+  .nav{padding-left:16px;padding-right:16px}
+  .nav-ad{font-size:16px;letter-spacing:.15em}
+  .nav-menyu{gap:13px;font-size:12.5px}
+}
+@media(max-width:400px){
+  .nav-ad{font-size:15px;letter-spacing:.1em}
+  .nav-menyu{gap:10px;font-size:11.5px}
+}
 
 /* ═══ Hero ═══ */
 
@@ -655,6 +663,32 @@ tbody tr:hover{background:var(--sedef-ac)}
   max-width:60ch;
 }
 
+/* dar ekranda cədvəl sətirləri karta çevrilir — yan sürüşdürmə lazım olmur */
+@media(max-width:620px){
+  .qiymet-qab{overflow-x:visible}
+  table{min-width:0;font-size:15px}
+  caption{display:block;width:100%;max-width:none;padding-bottom:16px;text-align:left}
+  thead{
+    position:absolute;width:1px;height:1px;
+    overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;
+  }
+  table,tbody{display:block;width:100%}
+  tbody tr{
+    display:grid;
+    grid-template-columns:1fr auto;
+    grid-template-areas:"ad mebleg" "vaxt mebleg";
+    column-gap:14px;
+    align-items:center;
+    padding:14px 0;
+    border-bottom:1px solid var(--xett-ac);
+  }
+  tbody tr:hover{background:none}
+  td{display:block;border:0;padding:0}
+  .qiymet-ad{grid-area:ad;font-size:16px;line-height:1.35}
+  .qiymet-vaxt{grid-area:vaxt;font-size:13.5px;margin-top:3px}
+  .qiymet-mebleg{grid-area:mebleg;text-align:right;font-size:18px;white-space:nowrap}
+}
+
 /* ═══ Rezervasiya ═══ */
 .rezerv{
   background:var(--sedef-ac);
@@ -961,10 +995,11 @@ tbody tr:hover{background:var(--sedef-ac)}
 @media(max-width:640px){
   .hero.foto-rejim .hero-foto::after{
     background:
-      radial-gradient(88% 52% at 50% 48%, rgba(233,236,231,.72), rgba(233,236,231,.42) 100%),
-      linear-gradient(180deg, rgba(233,236,231,.44) 0%, rgba(233,236,231,.3) 42%,
-                      rgba(228,232,226,.5) 80%, var(--sedef) 100%);
+      radial-gradient(74% 40% at 50% 47%, rgba(233,236,231,.56), rgba(233,236,231,.2) 100%),
+      linear-gradient(180deg, rgba(233,236,231,.26) 0%, rgba(233,236,231,.12) 45%,
+                      rgba(228,232,226,.38) 82%, var(--sedef) 100%);
   }
+  .hero-foto img{object-position:74% 50%}
 }
 
 
