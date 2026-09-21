@@ -81,14 +81,104 @@ a{color:inherit}
 .nav.nav-isiq{mix-blend-mode:normal;color:var(--sedef-ac)}
 .nav.nav-isiq .nav-menyu a:hover{border-bottom-color:var(--sedef-ac)}
 
-@media(max-width:640px){
-  .nav{padding-left:16px;padding-right:16px}
-  .nav-ad{font-size:16px;letter-spacing:.15em}
-  .nav-menyu{gap:13px;font-size:12.5px}
+/* ═══ Mobil menyu (3 xətt) ═══ */
+.burger{
+  display:none;
+  width:44px;height:44px;margin-left:-10px;
+  border:none;background:none;color:inherit;cursor:pointer;
+  position:relative;
 }
-@media(max-width:400px){
-  .nav-ad{font-size:15px;letter-spacing:.1em}
-  .nav-menyu{gap:10px;font-size:11.5px}
+.burger span{
+  position:absolute;left:10px;width:24px;height:1.5px;border-radius:2px;
+  background:currentColor;
+  transition:transform .35s cubic-bezier(.3,.9,.3,1),opacity .2s,width .3s;
+}
+.burger span:nth-child(1){top:15px}
+.burger span:nth-child(2){top:21.5px;width:16px}
+.burger span:nth-child(3){top:28px}
+
+.mmenyu{
+  position:fixed;inset:0;z-index:90;
+  visibility:hidden;pointer-events:none;
+}
+.mmenyu.aciq{visibility:visible;pointer-events:auto}
+.mmenyu-fon{
+  position:absolute;inset:0;
+  background:rgba(36,23,34,.42);
+  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+  opacity:0;transition:opacity .35s ease;
+}
+.mmenyu.aciq .mmenyu-fon{opacity:1}
+.mmenyu-panel{
+  position:absolute;top:0;left:0;bottom:0;
+  width:min(86vw,360px);
+  display:flex;flex-direction:column;
+  padding:22px 28px calc(28px + env(safe-area-inset-bottom));
+  background:var(--sedef-ac);
+  color:var(--gavali);
+  box-shadow:20px 0 60px rgba(36,23,34,.25);
+  transform:translateX(-102%);
+  transition:transform .45s cubic-bezier(.3,.9,.3,1);
+  overflow-y:auto;
+}
+.mmenyu.aciq .mmenyu-panel{transform:none}
+.mmenyu-bas{display:flex;justify-content:space-between;align-items:center;margin-bottom:42px}
+.mmenyu-bas .nav-ad{font-size:17px;letter-spacing:.2em;text-decoration:none}
+.mmenyu-bagla{
+  width:40px;height:40px;margin-right:-8px;
+  border:none;background:none;color:inherit;cursor:pointer;
+  position:relative;
+}
+.mmenyu-bagla::before,.mmenyu-bagla::after{
+  content:"";position:absolute;left:10px;top:19px;width:20px;height:1.5px;background:currentColor;
+}
+.mmenyu-bagla::before{transform:rotate(45deg)}
+.mmenyu-bagla::after{transform:rotate(-45deg)}
+
+.mmenyu-linkler{display:flex;flex-direction:column;border-top:1px solid var(--xett)}
+.mmenyu-linkler a{
+  display:flex;align-items:baseline;gap:16px;
+  padding:17px 2px;
+  border-bottom:1px solid var(--xett);
+  text-decoration:none;
+  font-family:'Bodoni Moda',Georgia,serif;
+  font-size:27px;line-height:1.15;
+  opacity:0;transform:translateX(-14px);
+  transition:opacity .4s ease,transform .5s cubic-bezier(.3,.9,.3,1),color .2s;
+}
+.mmenyu-linkler a small{
+  font-family:'Jost',system-ui,sans-serif;
+  font-size:11px;letter-spacing:.12em;color:var(--gavali-ac);
+  min-width:20px;
+}
+.mmenyu-linkler a:active{color:var(--gavali-orta)}
+.mmenyu.aciq .mmenyu-linkler a{opacity:1;transform:none}
+.mmenyu.aciq .mmenyu-linkler a:nth-child(1){transition-delay:.12s}
+.mmenyu.aciq .mmenyu-linkler a:nth-child(2){transition-delay:.17s}
+.mmenyu.aciq .mmenyu-linkler a:nth-child(3){transition-delay:.22s}
+.mmenyu.aciq .mmenyu-linkler a:nth-child(4){transition-delay:.27s}
+
+.mmenyu-dugme{
+  display:block;margin-top:32px;padding:15px 20px;
+  border-radius:100px;text-align:center;text-decoration:none;
+  background:linear-gradient(135deg,var(--gavali),var(--gavali-orta));
+  color:var(--sedef-ac);font-weight:500;letter-spacing:.04em;
+}
+.mmenyu-alt{
+  margin-top:auto;padding-top:36px;
+  font-size:13.5px;line-height:1.75;color:var(--gavali-orta);
+}
+.mmenyu-alt a{text-decoration:none;color:var(--gavali)}
+body.menyu-acik{overflow:hidden}
+
+@media(max-width:760px){
+  .nav{padding-left:16px;padding-right:16px;display:grid;grid-template-columns:44px 1fr 44px;align-items:center}
+  .nav-menyu{display:none}
+  .burger{display:block}
+  .nav-ad{grid-column:2;justify-self:center;font-size:17px;letter-spacing:.2em}
+}
+@media(prefers-reduced-motion:reduce){
+  .mmenyu-panel,.mmenyu-fon,.mmenyu-linkler a{transition:none}
 }
 
 /* ═══ Hero ═══ */
@@ -1026,6 +1116,9 @@ tbody tr:hover{background:var(--sedef-ac)}
 <body>
 
 <nav class="nav">
+  <button class="burger" type="button" aria-label="Menyunu aç" aria-expanded="false" aria-controls="mmenyu">
+    <span></span><span></span><span></span>
+  </button>
   <a class="nav-ad" href="#ust" style="text-decoration:none">ANGEL</a>
   <div class="nav-menyu">
     <a href="#xidmetler">Xidmətlər</a>
@@ -1034,6 +1127,28 @@ tbody tr:hover{background:var(--sedef-ac)}
     <a href="#rezervasiya">Vaxt al</a>
   </div>
 </nav>
+
+<div class="mmenyu" id="mmenyu" aria-hidden="true">
+  <div class="mmenyu-fon" data-bagla></div>
+  <aside class="mmenyu-panel" role="dialog" aria-modal="true" aria-label="Menyu">
+    <div class="mmenyu-bas">
+      <a class="nav-ad" href="#ust" data-bagla>ANGEL</a>
+      <button class="mmenyu-bagla" type="button" aria-label="Menyunu bağla" data-bagla></button>
+    </div>
+    <nav class="mmenyu-linkler">
+      <a href="#xidmetler" data-bagla><small>01</small>Xidmətlər</a>
+      <a href="#ustalar" data-bagla><small>02</small>Ustalar</a>
+      <a href="#qiymetler" data-bagla><small>03</small>Qiymətlər</a>
+      <a href="#rezervasiya" data-bagla><small>04</small>Vaxt al</a>
+    </nav>
+    <a class="mmenyu-dugme" href="tel:+994125550142">Zəng et</a>
+    <div class="mmenyu-alt">
+      Nizami küçəsi 42, Bakı<br>
+      <a href="tel:+994125550142">+994 12 555 01 42</a><br>
+      Hər gün 10:00–20:00, bazar bağlı
+    </div>
+  </aside>
+</div>
 
 <header class="hero foto-rejim" id="ust">
   <div class="hero-fon foto-var" id="hero-fon" aria-hidden="true">
@@ -1948,6 +2063,32 @@ forma.addEventListener('submit', async e=>{
     window.addEventListener('scroll', navRengi, {passive:true});
     window.addEventListener('resize', navRengi);
     navRengi();
+  })();
+
+  /* Mobil menyu */
+  (function(){
+    const menyu = document.getElementById('mmenyu');
+    const burger = document.querySelector('.burger');
+    if(!menyu || !burger) return;
+    function ac(){
+      menyu.classList.add('aciq');
+      menyu.setAttribute('aria-hidden','false');
+      burger.setAttribute('aria-expanded','true');
+      document.body.classList.add('menyu-acik');
+      setTimeout(()=>menyu.querySelector('.mmenyu-bagla').focus({preventScroll:true}),50);
+    }
+    function bagla(){
+      if(!menyu.classList.contains('aciq')) return;
+      menyu.classList.remove('aciq');
+      menyu.setAttribute('aria-hidden','true');
+      burger.setAttribute('aria-expanded','false');
+      document.body.classList.remove('menyu-acik');
+      burger.focus({preventScroll:true});
+    }
+    burger.addEventListener('click', ac);
+    menyu.querySelectorAll('[data-bagla]').forEach(el=>el.addEventListener('click', bagla));
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape') bagla(); });
+    window.addEventListener('resize', ()=>{ if(window.innerWidth>760) bagla(); });
   })();
 
   /* Yükləmə animasiyasını başlat */
