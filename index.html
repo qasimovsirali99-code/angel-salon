@@ -2,12 +2,23 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ANGEL — gözəllik salonu, Bakı</title>
 <meta name="description" content="Saç, dırnaq, üz baxımı və qaş ustaları. Nizami küçəsi 42, Bakı. Vaxt üçün zəng edin.">
+<meta name="theme-color" content="#DDE2DC">
+<link rel="canonical" href="https://qasimovsirali99-code.github.io/angel-salon/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23241722'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='36' fill='%23EDF0EA' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ANGEL">
+<meta property="og:title" content="ANGEL — gözəllik salonu, Bakı">
+<meta property="og:description" content="Saç, dırnaq, üz baxımı və qaş ustaları. Nizami küçəsi 42, Bakı.">
+<meta property="og:url" content="https://qasimovsirali99-code.github.io/angel-salon/">
+<meta property="og:image" content="https://qasimovsirali99-code.github.io/angel-salon/sekiller/salon.jpg">
+<meta property="og:locale" content="az_AZ">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&amp;family=Jost:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
 <style>
 :root{
   --sedef:#DDE2DC;
@@ -916,7 +927,8 @@ tbody tr:hover{background:var(--sedef-ac)}
   color:var(--sedef-ac);
   font:inherit;font-size:14.5px;font-weight:500;
   cursor:pointer;
-  box-shadow:0 10px 30px rgba(36,23,34,.28);
+  /* tünd footer üzərində də seçilsin */
+  box-shadow:0 10px 30px rgba(36,23,34,.28), 0 0 0 1px rgba(237,240,234,.22);
   transition:transform .25s cubic-bezier(.3,.9,.3,1),background .25s;
 }
 .sohbet-dugme:hover{transform:translateY(-2px);background:var(--gavali-orta)}
@@ -1072,6 +1084,8 @@ tbody tr:hover{background:var(--sedef-ac)}
     border-radius:0;
   }
   .sohbet-dugme{right:16px;bottom:16px;padding:12px 18px 12px 13px}
+  /* söhbət düyməsi "on ikinci il" yazısının üstünə düşməsin */
+  .hero-asagi{bottom:84px}
 }
 
 
@@ -1153,7 +1167,7 @@ tbody tr:hover{background:var(--sedef-ac)}
 <header class="hero foto-rejim" id="ust">
   <div class="hero-fon foto-var" id="hero-fon" aria-hidden="true">
     <div class="hero-mesh"></div>
-    <div class="hero-foto"><img id="hero-foto-img" src="sekiller/salon.jpg" alt=""></div>
+    <div class="hero-foto"><img id="hero-foto-img" src="sekiller/salon.jpg" alt="" decoding="async" fetchpriority="high"></div>
     <div class="hero-esya" aria-hidden="true">
       <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
 
@@ -1792,6 +1806,16 @@ const forma = document.getElementById('rezerv-forma');
 const xeber = document.getElementById('rezerv-xeber');
 
 const FORMA_SERVER = 'https://angel-bot.qasimovsirali99.workers.dev';
+
+/* Keçmiş gün seçilə bilməsin — bu gündən 6 ay sonraya qədər */
+(function(){
+  const t = document.getElementById('tarix');
+  if(!t) return;
+  const g = new Date(); g.setMinutes(g.getMinutes() - g.getTimezoneOffset());
+  const son = new Date(g); son.setMonth(son.getMonth() + 6);
+  t.min = g.toISOString().slice(0,10);
+  t.max = son.toISOString().slice(0,10);
+})();
 const SALON_TELEFON = '+994 12 555 01 42';
 
 forma.addEventListener('submit', async e=>{
@@ -1803,6 +1827,15 @@ forma.addEventListener('submit', async e=>{
     xeber.textContent = 'Ad, telefon, xidmət və gün doldurulmalıdır.';
     xeber.classList.add('gorunur');
     forma.querySelector(`[name="${bos[0]}"]`).focus();
+    return;
+  }
+
+  const secilen = String(d.get('tarix'));
+  const bugun = new Date(); bugun.setHours(0,0,0,0);
+  if(new Date(secilen + 'T00:00:00') < bugun){
+    xeber.textContent = 'Keçmiş gün seçilib. Zəhmət olmasa bugünkü və ya sonrakı günü seçin.';
+    xeber.classList.add('gorunur');
+    forma.querySelector('[name="tarix"]').focus();
     return;
   }
 
@@ -2087,7 +2120,17 @@ forma.addEventListener('submit', async e=>{
     }
     burger.addEventListener('click', ac);
     menyu.querySelectorAll('[data-bagla]').forEach(el=>el.addEventListener('click', bagla));
-    document.addEventListener('keydown', e=>{ if(e.key==='Escape') bagla(); });
+    document.addEventListener('keydown', e=>{
+      if(e.key === 'Escape'){ bagla(); return; }
+      /* menyu açıqkən Tab panelin içindən çıxmasın */
+      if(e.key === 'Tab' && menyu.classList.contains('aciq')){
+        const f = menyu.querySelectorAll('a[href], button');
+        if(!f.length) return;
+        const ilk = f[0], son = f[f.length-1];
+        if(e.shiftKey && document.activeElement === ilk){ e.preventDefault(); son.focus(); }
+        else if(!e.shiftKey && document.activeElement === son){ e.preventDefault(); ilk.focus(); }
+      }
+    });
     window.addEventListener('resize', ()=>{ if(window.innerWidth>760) bagla(); });
   })();
 
@@ -2126,10 +2169,17 @@ forma.addEventListener('submit', async e=>{
   const tarixce = [];           /* AI üçün söhbət tarixi */
 
   /* ── köməkçilər ── */
+  /* Müştərinin yazdığı mətn HTML kimi işlənməsin */
+  function qoru(metn){
+    return String(metn)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
   function mesaj(metn, kim){
     const d = document.createElement('div');
     d.className = 'mesaj mesaj-' + (kim || 'usta');
-    d.innerHTML = metn;
+    if(kim === 'musteri') d.textContent = metn; else d.innerHTML = metn;
     lent.appendChild(d);
     lent.scrollTop = lent.scrollHeight;
     if(kim !== 'musteri') tarixce.push({rol:'usta', metn});
@@ -2225,7 +2275,7 @@ forma.addEventListener('submit', async e=>{
     if(addim === 'ad'){
       sifaris.ad = metn.trim();
       addim = 'telefon';
-      await cavab(`Xoş gördük, ${sifaris.ad}. Telefon nömrənizi yazın — təsdiq üçün zəng edəcəyik.`);
+      await cavab(`Xoş gördük, ${qoru(sifaris.ad)}. Telefon nömrənizi yazın — təsdiq üçün zəng edəcəyik.`);
       return;
     }
     if(addim === 'telefon'){
@@ -2251,10 +2301,10 @@ forma.addEventListener('submit', async e=>{
       addim = 'tesdiq';
       await cavab(
         `Yekunlaşdırıram:\n\n` +
-        `<b>Ad:</b> ${sifaris.ad}\n` +
-        `<b>Telefon:</b> ${sifaris.telefon}\n` +
-        `<b>Xidmət:</b> ${sifaris.xidmet}\n` +
-        `<b>Vaxt:</b> ${sifaris.vaxt}\n\n` +
+        `<b>Ad:</b> ${qoru(sifaris.ad)}\n` +
+        `<b>Telefon:</b> ${qoru(sifaris.telefon)}\n` +
+        `<b>Xidmət:</b> ${qoru(sifaris.xidmet)}\n` +
+        `<b>Vaxt:</b> ${qoru(sifaris.vaxt)}\n\n` +
         `Düzdürmü?`);
       cipQoy(['Bəli, göndər','Düzəliş edim']);
       return;
@@ -2315,7 +2365,7 @@ forma.addEventListener('submit', async e=>{
       });
       const d = await c.json();
       y.remove();
-      mesaj(d.cavab || oflaynCavab(metn));
+      mesaj(d.cavab ? qoru(d.cavab) : oflaynCavab(metn));
       if(d.rezerv_basla){ addim = 'ad'; return; }
     }catch(e){
       y.remove();
@@ -2334,10 +2384,6 @@ forma.addEventListener('submit', async e=>{
     ciplerEl.innerHTML = '';
 
     if(addim){ await rezervAddimi(metn); return; }
-
-    /* açar sözlə rezervasiya başlaya bilər */
-    const oflayn = oflaynCavab(metn);
-    if(addim === 'ad'){ await cavab(oflayn); return; }
 
     await serbestSual(metn);
   }
